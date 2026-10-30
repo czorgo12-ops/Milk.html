@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Maa Ambe Milk Ledger</title>
+<meta name="theme-color" content="#0F3D2E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F4EE;--card:#fff;--ink:#14231C;--mut:#6B7A72;--g:#0F3D2E;--g2:#1E5A45;--gold:#B8923A;--line:#E8E3D4;--ok:#2E7D5B;--bad:#B0443A}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:96px}
+header{background:linear-gradient(160deg,var(--g),var(--g2));color:#fff;padding:calc(env(safe-area-inset-top,0px) + 18px) 20px 24px;border-radius:0 0 28px 28px;position:relative}
+header:after{content:"";position:absolute;left:24px;right:24px;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#d9c48f;font-weight:600}
+.langbtn{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:4px 10px;font:600 11px Inter;cursor:pointer}
+#farm{font:700 24px Fraunces,Georgia,serif;background:none;border:0;color:#fff;width:100%;padding:2px 0;outline:none}
+.subbar{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:12px;color:#cfe0d8}
+.subbar input{height:28px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;padding:0 8px;font-size:12px;flex:1}
+.subbar input::placeholder{color:rgba(255,255,255,.55)}
+main{padding:18px 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 1px 2px rgba(20,35,28,.04),0 8px 20px rgba(20,35,28,.05)}
+h2{font:600 18px Fraunces,Georgia,serif;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center}
+.mut{color:var(--mut);font-size:13px}
+.big{font:700 42px Fraunces,Georgia,serif;color:var(--g);line-height:1.1;margin:4px 0}
+.big small{font:500 15px Inter;color:var(--mut)}
+.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{margin:0}.stat span{font-size:12px;color:var(--mut);display:block}.stat b{font:600 21px Fraunces,Georgia,serif;color:var(--g)}
+.grid2{margin-bottom:14px}
+.bar{height:8px;background:#EFEBDD;border-radius:8px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#d4b05a);border-radius:8px}
+label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:10px 0 5px}
+input,textarea{width:100%;height:46px;padding:0 13px;border:1px solid var(--line);border-radius:12px;background:#FCFBF8;font:500 15px Inter;color:var(--ink)}
+textarea{height:64px;padding:10px 13px;font:11px monospace}
+input:focus,textarea:focus{outline:2px solid var(--g2);outline-offset:1px;background:#fff}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;min-height:46px;margin-top:10px;border:0;border-radius:13px;background:var(--g);color:#fff;font:600 14px Inter;text-decoration:none;cursor:pointer;padding:0 12px}
+.btn:active{transform:scale(.98)}
+.btn.gold{background:linear-gradient(135deg,#C9A24A,var(--gold));color:#2b2108}
+.btn.ghost{background:transparent;color:var(--g);border:1.5px solid var(--line)}
+.btn.wa{background:#1FA855}.btn.sms{background:#3A5A8C}.btn.upi{background:#5f259f}
+.btn.sm{min-height:34px;font-size:12px;margin-top:0;width:auto;padding:0 12px;border-radius:10px}
+.row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}.grow{flex:1;min-width:0}.tap{cursor:pointer}
+.step{display:flex;align-items:center;gap:6px}
+.step button,.datebar button{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--g);font:600 19px Inter;cursor:pointer;flex-shrink:0}
+.step input{width:60px;height:38px;text-align:center;padding:0;font-weight:600}
+.datebar{display:flex;gap:8px;align-items:center;margin-bottom:8px}.datebar input{text-align:center}
+.mlabel{flex:1;text-align:center;font:600 18px Fraunces,Georgia,serif}
+.tot{display:flex;justify-content:space-between;padding:14px 2px 2px;font-weight:600}
+.amt{font:600 16px Fraunces,Georgia,serif}
+.chip{font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#EFEBDD;color:var(--mut);white-space:nowrap}
+.chip.gold{background:#F4E7C3;color:#7a5a12}.chip.ok{background:#D8EEE2;color:var(--ok)}
+.pills{display:flex;gap:6px;margin-bottom:10px}
+.pill{flex:1;height:36px;border-radius:10px;border:1px solid var(--line);background:#FCFBF8;color:var(--mut);font:600 13px Inter;cursor:pointer}
+.pill.on{background:var(--g);color:#fff;border-color:var(--g)}
+.det{padding:8px 0 14px;border-bottom:1px solid var(--line)}
+.det .l{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}.det .l.t{font-weight:700;border-top:1px solid var(--ink);margin-top:6px;padding-top:8px}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}
+.calcell{background:#F8F6F0;border-radius:6px;padding:4px 2px;text-align:center;font-size:11px}
+.calcell b{display:block;color:var(--g);font-size:12px}
+.calcell.zero{opacity:.45}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.empty{text-align:center;color:var(--mut);padding:26px 14px}
+.del{background:none;border:0;color:var(--bad);font:600 13px Inter;padding:8px;cursor:pointer}
+nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 8px calc(env(safe-area-inset-bottom,0px) + 6px);z-index:5}
+nav div{display:flex;width:100%;max-width:520px}
+nav button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;font:600 11px Inter;color:var(--mut);cursor:pointer}
+nav button.on{color:var(--g)}nav button.on:after{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
+nav svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;padding:10px 18px;border-radius:24px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}.toast.show{opacity:1}
+@media print{
+  nav,header,.no-print{display:none!important}
+  body{background:#fff}
+  .app{max-width:100%;padding:0}
+  .card{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="toprow">
+    <div class="eyebrow" id="hdr-eye">Milk Ledger</div>
+    <button class="langbtn" id="langbtn" type="button">हिंदी / EN</button>
+  </div>
+  <input id="farm" aria-label="Farm name" placeholder="Maa Ambe Dairy Farm">
+  <div class="subbar" id="upibar">
+    <span>UPI ID:</span>
+    <input id="upi" aria-label="UPI ID for receiving payments" placeholder="e.g. 9876543210@ybl (optional)">
+  </div>
+</header>
+<main id="main"></main>
+</div>
+<nav><div>
+<button data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i18n="nav_home">Home</span></button>
+<button data-tab="entry"><svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 6.5 6 10a6 6 0 0 1-12 0c0-3.5 3-6 6-10z"/></svg><span data-i18n="nav_entry">Entry</span></button>
+<button data-tab="bills"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg><span data-i18n="nav_bills">Bills</span></button>
+<button data-tab="cust"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><path d="M17 4.5a3.5 3.5 0 0 1 0 7M21.5 20c0-2.8-1.7-4.8-4-5.6"/></svg><span data-i18n="nav_cust">Customers</span></button>
+</div></nav>
+<div class="toast" id="toast"></div>
+<input type="file" id="file-in" accept=".json,application/json" style="display:none">
+<script>
+(()=>{
+const KEY='ml2',$=s=>document.querySelector(s),MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const I18N={
+  en:{
+    nav_home:'Home',nav_entry:'Entry',nav_bills:'Bills',nav_cust:'Customers',
+    today:'Today',litres:'litres',deliv_to:'Delivered to',of:'of',custs:'customers',
+    add_first:'Add your first customer to begin',rec_today:'Record today’s milk',add_cust:'Add a customer',
+    this_month:'This month',to_collect:'To collect',bills_lbl:'bills',sent_lbl:'sent',
+    open_bills:'Open bills',no_milk_last:'No milk recorded for this month.',
+    search_ph:'Search customer',tot_day:'Total for the day',saved_auto:'Saved automatically',
+    usual_btn:'Usual quantities',yday_btn:'Same as yesterday',clear_btn:'Clear day',
+    morning:'Morning (AM)',evening:'Evening (PM)',all_day:'Full Day',
+    no_milk_for:'No milk recorded for',paid:'Paid',advance:'Advance',part_paid:'Part paid',sent:'Sent',to_send:'To send',
+    prev_unpaid:'Previous balance',received:'Received',tot_due:'Total due',
+    rec_pay:'Record payment',mark_paid:'Mark month paid',undo_pay:'Undo month payment',
+    edit_cust:'Edit customer',name:'Name',phone:'Phone',rate:'Rate per litre',usual:'Usual litres/day',
+    save_chg:'Save changes',cancel:'Cancel',backup:'Backup & Export',
+    dl_json:'Download Backup (.json)',ul_json:'Import Backup File',export_csv:'Export Monthly CSV'
+  },
+  hi:{
+    nav_home:'होम',nav_entry:'एंट्री',nav_bills:'बिल',nav_cust:'ग्राहक',
+    today:'आज',litres:'लीटर',deliv_to:'आज की सप्लाई:',of:'/',custs:'ग्राहक',
+    add_first:'शुरू करने के लिए पहला ग्राहक जोड़ें',rec_today:'आज का दूध दर्ज करें',add_cust:'ग्राहक जोड़ें',
+    this_month:'इस महीने',to_collect:'कुल बकाया',bills_lbl:'बिल',sent_lbl:'भेजे गए',
+    open_bills:'बिल देखें',no_milk_last:'कोई दूध रिकॉर्ड नहीं है।',
+    search_ph:'ग्राहक खोजें...',tot_day:'आज का कुल दूध',saved_auto:'ऑटो-सेव चालू है',
+    usual_btn:'रोज़ की मात्रा भरें',yday_btn:'कल जैसा भरें',clear_btn:'आज का रीसेट',
+    morning:'सुबह (AM)',evening:'शाम (PM)',all_day:'पूरा दिन',
+    no_milk_for:'कोई दूध रिकॉर्ड नहीं:',paid:'भुगतान हो गया',advance:'अग्रिम जमा',part_paid:'आंशिक भुगतान',sent:'भेजा गया',to_send:'भेजना बाकी',
+    prev_unpaid:'पिछला बकाया',received:'प्राप्त राशि',tot_due:'कुल देय राशि',
+    rec_pay:'पेमेंट दर्ज करें',mark_paid:'पूरा भुगतान मार्क करें',undo_pay:'भुगतान हटाएं',
+    edit_cust:'ग्राहक बदलें',name:'नाम',phone:'मोबाइल नंबर',rate:'भाव (₹ प्रति लीटर)',usual:'रोज़ का दूध (लीटर)',
+    save_chg:'बदलाव सेव करें',cancel:'रद्द करें',backup:'बैकअप और रिपोर्ट',
+    dl_json:'बैकअप फाइल डाउनलोड (.json)',ul_json:'बैकअप फाइल अपलोड',export_csv:'CSV रिपोर्ट डाउनलोड'
+  }
+};
+
+let D={customers:[],entries:{},bills:{},settings:{farm:'Maa Ambe Dairy Farm',cur:'₹',upi:'',lang:'en',shiftMode:false}};
+let lsOK=true,tab='home',open=null,edit=null,qs='',shift='all';
+
+const T=k=>(I18N[D.settings.lang||'en']||I18N.en)[k]||I18N.en[k]||k;
+const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>iso(new Date()),ymNow=()=>today().slice(0,7);
+const shiftYm=(ym,n)=>{const[y,m]=ym.split('-').map(Number),d=new Date(y,m-1+n,1);return d.getFullYear()+'-'+pad(d.getMonth()+1)};
+const prevYm=()=>shiftYm(ymNow(),-1),monthLabel=ym=>{const[y,m]=ym.split('-');return MN[m-1]+' '+y};
+const fmtD=s=>{const[,m,d]=s.split('-');return +d+' '+MN[m-1].slice(0,3)};
+let date=today(),bym=ymNow();
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const L=n=>+Number(n||0).toFixed(2),M=n=>D.settings.cur+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
+const smsHref=(dg,body)=>`sms:${dg}${/iPhone|iPad|iPod/i.test(navigator.userAgent)?'?&':'?'}body=${body}`;
+
+function load(){
+  try{
+    const r=localStorage.getItem(KEY);
+    if(r){
+      const parsed=JSON.parse(r);
+      D.customers=parsed.customers||[];
+      D.entries=parsed.entries||{};
+      D.bills=parsed.bills||{};
+      D.settings=Object.assign(D.settings,parsed.settings||{});
+    }
+    // Smart default billing month: if prev month has entries & unpaid, show prevYm, else ymNow
+    const py=prevYm();
+    const hasPrev=Object.keys(D.entries).some(k=>k.includes('|'+py));
+    const hasCurr=Object.keys(D.entries).some(k=>k.includes('|'+ymNow()));
+    bym=(hasPrev&&!hasCurr)?py:ymNow();
+  }catch(e){lsOK=false}
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){lsOK=false}}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+
+// Quantity helpers supporting both full-day ("c|YYYY-MM-DD") and optional AM/PM shifts ("c|YYYY-MM-DD|M" / "|E")
+function qShift(c,d,sh){
+  if(sh==='M')return D.entries[c+'|'+d+'|M']||0;
+  if(sh==='E')return D.entries[c+'|'+d+'|E']||0;
+  return (D.entries[c+'|'+d]||0)+(D.entries[c+'|'+d+'|M']||0)+(D.entries[c+'|'+d+'|E']||0);
+}
+const q=(c,d)=>qShift(c,d,'all');
+
+function setQ(c,v,sh=shift){
+  v=Math.max(0,L(v));
+  const base=c+'|'+date;
+  if(D.settings.shiftMode && (sh==='M'||sh==='E')){
+    // Migrate legacy single entry to Morning if needed
+    if(D.entries[base]){
+      D.entries[base+'|M']=(D.entries[base+'|M']||0)+D.entries[base];
+      delete D.entries[base];
+    }
+    const k=base+'|'+sh;
+    v>0?D.entries[k]=v:delete D.entries[k];
+  }else{
+    delete D.entries[base+'|M'];
+    delete D.entries[base+'|E'];
+    v>0?D.entries[base]=v:delete D.entries[base];
+  }
+  // Snapshot customer's current rate on this month's bill so future rate changes don't alter past months
+  const ym=date.slice(0,7),bk=c+'|'+ym;
+  const custObj=D.customers.find(x=>x.id===c);
+  if(custObj){
+    D.bills[bk]=D.bills[bk]||{};
+    if(!D.bills[bk].rate)D.bills[bk].rate=custObj.rate;
+  }
+  save();
+}
+
+function mq(c,ym){
+  let s=0;
+  const prefix=c+'|'+ym;
+  for(const k in D.entries)if(k.startsWith(prefix))s+=D.entries[k];
+  return L(s);
+}
+function dayBreakdown(c,ym){
+  const map={};
+  const prefix=c+'|'+ym+'-';
+  for(const k in D.entries){
+    if(k.startsWith(prefix)){
+      const rest=k.slice(prefix.length);
+      const day=rest.slice(0,2);
+      map[day]=L((map[day]||0)+D.entries[k]);
+    }
+  }
+  return map;
+}
+function months(c){
+  const s=new Set();
+  const p=c+'|';
+  for(const k in D.entries)if(k.startsWith(p))s.add(k.slice(p.length,p.length+7));
+  for(const k in D.bills)if(k.startsWith(p))s.add(k.slice(p.length,p.length+7));
+  return[...s].filter(x=>/^\d{4}-\d{2}$/.test(x)).sort();
+}
+function rateFor(c,ym){
+  const b=D.bills[c.id+'|'+ym];
+  return (b&&b.rate)?b.rate:c.rate;
+}
+function monthSub(c,ym){
+  return L(mq(c.id,ym)*rateFor(c,ym));
+}
+// Net balance for a single month (can be negative if customer paid advance/overpaid)
+function netMonth(c,ym){
+  const b=D.bills[c.id+'|'+ym]||{};
+  const sub=monthSub(c,ym);
+  if(b.paid && !(b.received>sub))return 0;
+  return L(sub-(b.received||0));
+}
+function owed(c,ym){return Math.max(0,netMonth(c,ym))}
+// Cumulative balance strictly before `ym`
+function due(c,ym){
+  let s=0;
+  months(c.id).forEach(m=>{if(m<ym)s+=netMonth(c,m)});
+  return L(s);
+}
+// Total balance up to and including `ym`
+function totalBalanceUpTo(c,ym){
+  return L(due(c,ym)+netMonth(c,ym));
+}
+// Apply payment across oldest unpaid months first, and preserve any overpayment/advance in `bym`
+function pay(c,amt){
+  amt=L(amt);
+  if(!(amt>0))return;
+  const ms=months(c.id).filter(m=>m<=bym);
+  if(!ms.includes(bym))ms.push(bym);
+  ms.sort();
+  ms.forEach(m=>{
+    const k=c.id+'|'+m,b=D.bills[k]=D.bills[k]||{rate:rateFor(c,m)};
+    const sub=monthSub(c,m),o=owed(c,m);
+    if(amt>0&&o>0){
+      const x=L(Math.min(o,amt));
+      b.received=L((b.received||0)+x);
+      amt=L(amt-x);
+    }
+    if(sub>0&&(b.received||0)>=sub-0.005)b.paid=true;
+  });
+  // If customer paid extra (advance), store remaining amount in current billing month
+  if(amt>0){
+    const k=c.id+'|'+bym,b=D.bills[k]=D.bills[k]||{rate:rateFor(c,bym)};
+    b.received=L((b.received||0)+amt);
+    b.paid=true;
+  }
+}
+
+function digits(p){let d=String(p||'').replace(/\D/g,'');if(d.length===10)d='91'+d;return d}
+const empty=m=>`<div class="card empty">${m}</div>`;
+
+function slink(c){
+  const m={},p={},rt={};
+  months(c.id).slice(-6).forEach(ym=>{
+    const d=dayBreakdown(c.id,ym);
+    if(Object.keys(d).length||D.bills[c.id+'|'+ym]){
+      m[ym]=d;
+      const b=D.bills[c.id+'|'+ym]||{},sub=monthSub(c,ym);
+      p[ym]=b.paid&&!(b.received>sub)?sub:L(b.received||0);
+      rt[ym]=rateFor(c,ym);
+    }
+  });
+  const j=JSON.stringify({f:D.settings.farm,u:D.settings.upi||'',n:c.name,r:c.rate,rt,c:D.settings.cur,g:today(),m,p});
+  return location.href.split('#')[0]+'#s='+btoa(unescape(encodeURIComponent(j))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+function statement(h){
+  let s;try{s=JSON.parse(decodeURIComponent(escape(atob(h.replace(/-/g,'+').replace(/_/g,'/')))))}catch(e){s=null}
+  document.querySelector('nav').remove();
+  const hd=document.querySelector('header');
+  if(!s){hd.innerHTML='<div class="eyebrow">Milk Ledger</div>';$('#main').innerHTML=empty('This link isn’t valid. Ask for a new one.');return}
+  document.title=s.f+' · '+s.n;
+  hd.innerHTML=`<div class="eyebrow">${esc(s.f)}</div><div style="font:700 24px Fraunces,Georgia,serif;margin:4px 0">${esc(s.n)}</div><div style="color:#bcd3c8;font-size:13px">Milk Passbook · updated ${fmtD(s.g)}</div>`;
+  const cu=s.c||'₹',m$=n=>cu+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
+  let due=0;
+  const cards=Object.keys(s.m).sort().reverse().map(ym=>{
+    const dy=s.m[ym],ks=Object.keys(dy).sort(),l=ks.reduce((a,k)=>a+dy[k],0),rate=(s.rt&&s.rt[ym])||s.r,sub=L(l*rate),rec=(s.p||{})[ym]||0,o=L(sub-rec);
+    due=L(due+o);
+    return `<div class="card"><h2><span>${monthLabel(ym)}</span><span class="chip ${o<=0?'ok':'gold'}">${o<=0?'Paid':m$(o)+' due'}</span></h2>${ks.map(k=>`<div class="row" style="padding:7px 0"><div class="grow">${fmtD(ym+'-'+k)}</div><b>${L(dy[k])} L</b></div>`).join('')}<div class="tot"><span>${L(l)} L × ${m$(rate)}</span><span>${m$(sub)}</span></div>${rec?`<div class="tot" style="color:var(--mut)"><span>Received</span><span>− ${m$(rec)}</span></div>`:''}<div class="tot"><span>Balance</span><span>${o>0?m$(o):o<0?m$(Math.abs(o))+' Advance':'Paid'}</span></div></div>`;
+  }).join('');
+  const upiBtn=(s.u&&due>0)?`<a class="btn upi" href="upi://pay?pa=${encodeURIComponent(s.u)}&pn=${encodeURIComponent(s.f)}&am=${L(due)}&cu=INR">Pay ${m$(due)} via UPI</a>`:'';
+  $('#main').innerHTML=`<div class="card"><div class="mut">${due>=0?'Total due':'Advance credit'}</div><div class="big">${m$(Math.abs(due))}</div>${upiBtn}<button class="btn ghost no-print" onclick="window.print()">Print / Save PDF</button></div>`+cards;
+}
+
+function home(){
+  const t=today(),n=D.customers.length;let tl=0,tc=0,ml=0,ma=0;
+  const curYm=ymNow();
+  D.customers.forEach(c=>{
+    const v=q(c.id,t);
+    if(v>0){tl+=v;tc++}
+    ml+=mq(c.id,curYm);
+    let custNet=0;
+    months(c.id).forEach(x=>custNet+=netMonth(c,x));
+    if(custNet>0)ma+=custNet;
+  });
+  const py=prevYm(),act=D.customers.filter(c=>mq(c.id,py)>0||mq(c.id,curYm)>0);
+  const targetYm=D.customers.some(c=>mq(c.id,py)>0)?py:curYm;
+  const actTarget=D.customers.filter(c=>mq(c.id,targetYm)>0);
+  const sent=actTarget.filter(c=>(D.bills[c.id+'|'+targetYm]||{}).sent).length;
+  return `<div class="card"><div class="eyebrow" style="color:var(--gold)">${T('today')} · ${fmtD(t)}</div><div class="big">${L(tl)}<small> ${T('litres')}</small></div>
+  <div class="mut">${n?`${T('deliv_to')} ${tc} ${T('of')} ${n} ${T('custs')}`:T('add_first')}</div>
+  <button class="btn gold" data-tab="${n?'entry':'cust'}">${n?T('rec_today'):T('add_cust')}</button></div>
+  <div class="grid2"><div class="card stat"><span>${T('this_month')} (${monthLabel(curYm).split(' ')[0]})</span><b>${L(ml)} L</b></div><div class="card stat"><span>${T('to_collect')}</span><b>${M(ma)}</b></div></div>
+  <div class="card"><h2><span>${monthLabel(targetYm)} ${T('bills_lbl')}</span></h2>${actTarget.length?`<div class="bar"><i style="width:${Math.round(sent/actTarget.length*100)}%"></i></div><div class="mut">${sent} ${T('of')} ${actTarget.length} ${T('sent_lbl')}</div><button class="btn" data-act="gobills" data-ym="${targetYm}">${T('open_bills')}</button>`:`<div class="mut">${T('no_milk_last')}</div>`}</div>`;
+}
+
+const hit=c=>c.name.toLowerCase().includes(qs.trim().toLowerCase())||String(c.phone||'').includes(qs.trim());
+
+function erows(){
+  return D.customers.filter(hit).map(c=>{
+    const v=D.settings.shiftMode?qShift(c.id,date,shift):q(c.id,date);
+    const fullDay=q(c.id,date);
+    const subInfo=D.settings.shiftMode
+      ?`<div class="mut">M: ${L(qShift(c.id,date,'M'))} L · E: ${L(qShift(c.id,date,'E'))} L (Total ${L(fullDay)} L)</div>`
+      :(c.usual?`<div class="mut">usual ${L(c.usual)} L · ${M(c.rate)}/L</div>`:`<div class="mut">${M(c.rate)}/L</div>`);
+    return `<div class="row"><div class="grow"><b>${esc(c.name)}</b>${subInfo}</div>
+    <div class="step"><button type="button" data-act="adj" data-id="${c.id}" data-d="-0.5">−</button><input class="qin" type="number" inputmode="decimal" step="0.25" min="0" placeholder="0" value="${v||''}" data-id="${c.id}"><button type="button" data-act="adj" data-id="${c.id}" data-d="0.5">+</button></div></div>`;
+  }).join('')||'<div class="empty">No matching customer</div>';
+}
+
+function entry(){
+  if(!D.customers.length)return empty(T('add_first'));
+  if(D.settings.shiftMode && shift==='all')shift='M';
+  if(!D.settings.shiftMode)shift='all';
+  const tot=D.customers.reduce((s,c)=>s+q(c.id,date),0);
+  const shiftBar=D.settings.shiftMode?`<div class="pills"><button type="button" class="pill ${shift==='M'?'on':''}" data-act="setshift" data-sh="M">☀️ ${T('morning')}</button><button type="button" class="pill ${shift==='E'?'on':''}" data-act="setshift" data-sh="E">🌙 ${T('evening')}</button></div>`:'';
+  return `<div class="card"><div class="datebar"><button type="button" data-act="day" data-d="-1">‹</button><input type="date" id="dt" value="${date}"><button type="button" data-act="day" data-d="1">›</button><button type="button" class="btn ghost sm" data-act="today">Today</button></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0">
+    <span class="mut">2-Shift Mode (Morning / Evening)</span>
+    <button type="button" class="btn ghost sm" data-act="toggleshift">${D.settings.shiftMode?'ON ✓':'OFF'}</button>
+  </div>
+  ${shiftBar}
+  ${D.customers.length>4?`<input id="sq" type="search" placeholder="${T('search_ph')}" value="${esc(qs)}" style="margin:6px 0">`:''}
+  <div id="rows">${erows()}</div>
+  <div class="tot"><span>${T('tot_day')}</span><span id="day-tot">${L(tot)} L</span></div><div class="mut">${T('saved_auto')}</div>
+  <div class="acts"><button type="button" class="btn ghost" data-act="usual">${T('usual_btn')}</button><button type="button" class="btn ghost" data-act="yday">${T('yday_btn')}</button></div>
+  <button type="button" class="btn ghost" style="color:var(--bad);margin-top:8px" data-act="clearday">${T('clear_btn')}</button></div>`;
+}
+
+function bills(){
+  if(!D.customers.length)return empty(T('add_first'));
+  const nav=`<div class="datebar"><button type="button" data-act="bm" data-d="-1">‹</button><div class="mlabel">${monthLabel(bym)}</div><button type="button" data-act="bm" data-d="1">›</button></div>
+  <div class="pills"><button type="button" class="pill ${bym===ymNow()?'on':''}" data-act="setbm" data-ym="${ymNow()}">This Month</button><button type="button" class="pill ${bym===prevYm()?'on':''}" data-act="setbm" data-ym="${prevYm()}">Last Month</button></div>`;
+  const list=D.customers.map(c=>({c,l:mq(c.id,bym),pd:due(c,bym),rec:(D.bills[c.id+'|'+bym]||{}).received||0})).filter(x=>x.l>0||x.pd!==0||x.rec>0);
+  if(!list.length)return `<div class="card">${nav}<div class="empty">${T('no_milk_for')} ${monthLabel(bym)}.</div></div>`;
+  let tot=0;
+  const rows=list.map(({c,l,pd})=>{
+    const rate=rateFor(c,bym),sub=monthSub(c,bym),b=D.bills[c.id+'|'+bym]||{},rec=L(b.received||0),g=totalBalanceUpTo(c,bym);
+    if(g>0)tot=L(tot+g);
+    const st=g<0?`<span class="chip ok">${T('advance')} ${M(Math.abs(g))}</span>`:g===0?`<span class="chip ok">${T('paid')}</span>`:rec>0?`<span class="chip gold">${T('part_paid')}</span>`:b.sent?`<span class="chip gold">${T('sent')}</span>`:`<span class="chip">${T('to_send')}</span>`;
+    let more='';
+    if(open===c.id){
+      const f=D.settings.farm,upi=D.settings.upi.trim();
+      const upiLine=(upi&&g>0)?`\nPay via UPI (${upi}):\nupi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(f)}&am=${L(g)}&cu=INR\n`:'';
+      const msg=D.settings.lang==='hi'
+        ?`${f} — दूध का बिल\n${monthLabel(bym)}\n\nनमस्ते ${c.name},\nइस महीने का दूध: ${L(l)} L × ${M(rate)}/L = ${M(sub)}\n`+(pd>0?`पिछला बकाया: ${M(pd)}\n`:pd<0?`पिछला जमा (Advance): −${M(Math.abs(pd))}\n`:'')+(rec?`प्राप्त राशि: −${M(rec)}\n`:'')+`कुल देय राशि: ${M(Math.max(0,g))}\n${upiLine}\nधन्यवाद! 🙏\n— ${f}`
+        :`${f} — Milk Bill\n${monthLabel(bym)}\n\nHello ${c.name},\nMilk delivered: ${L(l)} L × ${M(rate)}/L = ${M(sub)}\n`+(pd>0?`Previous balance: ${M(pd)}\n`:pd<0?`Previous advance: −${M(Math.abs(pd))}\n`:'')+(rec?`Received: −${M(rec)}\n`:'')+`Total due: ${M(Math.max(0,g))}\n${upiLine}\nThank you! 🙏\n— ${f}`;
+      const e=encodeURIComponent(msg),dg=digits(c.phone),ok=/^https?:/.test(location.protocol);
+      const se=ok?encodeURIComponent(`${f}\nHello ${c.name}, here’s your day-wise milk passbook & balance:\n${slink(c)}`):'';
+      const stm=ok?`<div class="mut" style="margin-top:12px">Passbook Link (day-wise breakdown)</div><div class="acts"><a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/${dg}?text=${se}">Passbook · WhatsApp</a><a class="btn ghost" href="${smsHref(dg,se)}">Passbook · SMS</a></div>`:'';
+      // Build mini day-wise calendar breakdown
+      const dmap=dayBreakdown(c.id,bym);
+      const [yy,mm]=bym.split('-').map(Number),daysInMonth=new Date(yy,mm,0).getDate();
+      let calHtml='<div class="calgrid">';
+      for(let day=1;day<=daysInMonth;day++){
+        const dk=pad(day),dv=dmap[dk]||0;
+        calHtml+=`<div class="calcell ${dv?'':'zero'}">${day}<b>${dv?L(dv)+'L':'-'}</b></div>`;
+      }
+      calHtml+='</div>';
+
+      more=`<div class="det">
+      ${calHtml}
+      <div class="l"><span>${L(l)} L × ${M(rate)}/L</span><span>${M(sub)}</span></div>
+      ${pd>0?`<div class="l"><span>${T('prev_unpaid')}</span><span>+ ${M(pd)}</span></div>`:pd<0?`<div class="l" style="color:var(--ok)"><span>Previous Advance</span><span>− ${M(Math.abs(pd))}</span></div>`:''}
+      ${rec?`<div class="l" style="color:var(--ok)"><span>${T('received')} (${monthLabel(bym).split(' ')[0]})</span><span>− ${M(rec)}</span></div>`:''}
+      <div class="l t"><span>${g>=0?T('tot_due'):T('advance')}</span><span>${M(Math.abs(g))}</span></div>
+      <div class="acts"><a class="btn wa" data-act="sent" data-id="${c.id}" target="_blank" rel="noopener" href="https://wa.me/${dg}?text=${e}">WhatsApp Bill</a><a class="btn sms" data-act="sent" data-id="${c.id}" href="${smsHref(dg,e)}">SMS Bill</a></div>
+      <div class="acts"><button type="button" class="btn ghost" data-act="rec" data-id="${c.id}">${T('rec_pay')}</button><button type="button" class="btn ghost" data-act="paid" data-id="${c.id}">${g<=0?T('undo_pay'):T('mark_paid')}</button></div>
+      <button type="button" class="btn ghost no-print" onclick="window.print()">Print / Save Bill as PDF</button>
+      ${stm}</div>`;
+    }
+    return `<div class="row tap" data-act="open" data-id="${c.id}"><div class="grow"><b>${esc(c.name)}</b><div class="mut">${L(l)} L × ${M(rate)} = ${M(sub)}${pd>0?` + ${M(pd)} prev`:''}</div></div><div class="amt">${M(Math.max(0,g))}</div>${st}</div>${more}`;
+  }).join('');
+  return `<div class="card">${nav}<div class="mut" style="text-align:center">${list.length} ${T('custs')} · ${M(tot)} to collect</div></div><div class="card">${rows}</div>`;
+}
+
+function cust(){
+  const e=D.customers.find(c=>c.id===edit)||{};
+  const list=D.customers.length?D.customers.map(c=>`<div class="row"><div class="grow"><b>${esc(c.name)}</b><div class="mut">${esc(c.phone)} · ${M(c.rate)}/L${c.usual?` · ${L(c.usual)} L/day`:''}</div></div><button type="button" class="del" style="color:var(--g)" data-act="edit" data-id="${c.id}">Edit</button><button type="button" class="del" data-act="del" data-id="${c.id}">Remove</button></div>`).join(''):'<div class="empty">No customers yet.</div>';
+  return `<div class="card"><h2><span>${edit?T('edit_cust'):T('add_cust')}</span></h2><label>${T('name')}</label><input id="cn" value="${esc(e.name||'')}" placeholder="e.g. Sharma Family">
+  <label>${T('phone')}</label><input id="cp" type="tel" value="${esc(e.phone||'')}" placeholder="10-digit mobile number">
+  <div class="g2"><div><label>${T('rate')}</label><input id="cr" type="number" inputmode="decimal" value="${e.rate||''}" placeholder="60"></div><div><label>${T('usual')}</label><input id="cu" type="number" inputmode="decimal" step="0.25" value="${e.usual||''}" placeholder="1"></div></div>
+  <button type="button" class="btn" data-act="savec">${edit?T('save_chg'):T('add_cust')}</button>${edit?`<button type="button" class="btn ghost" data-act="cancel">${T('cancel')}</button>`:''}</div>
+  <div class="card"><h2><span>${T('nav_cust')} (${D.customers.length})</span></h2>${list}</div>
+  <div class="card"><h2><span>${T('backup')}</span></h2>
+  <div class="mut">Download a backup file to your phone or export monthly reports to Excel/CSV.</div>
+  <div class="acts"><button type="button" class="btn" data-act="dljson">${T('dl_json')}</button><button type="button" class="btn ghost" data-act="uljson">${T('ul_json')}</button></div>
+  <button type="button" class="btn gold" data-act="csv">${T('export_csv')} (${monthLabel(bym)})</button>
+  <label style="margin-top:14px">Text Backup</label><textarea id="bk" readonly></textarea><button type="button" class="btn ghost" data-act="copy">Copy backup text</button>
+  <label>Paste to Restore</label><textarea id="rs" placeholder="Paste backup JSON here"></textarea><button type="button" class="btn ghost" data-act="restore">Restore from text</button></div>`;
+}
+
+function updateNavLabels(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent=T(el.dataset.i18n);
+  });
+}
+
+function render(){
+  updateNavLabels();
+  $('#main').innerHTML=(lsOK?'':'<div class="card mut">Auto-save is unavailable in this browser — use Backup in Customers.</div>')+({home,entry,bills,cust}[tab])();
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  const bk=$('#bk');if(bk)bk.value=JSON.stringify(D);
+}
+
+function applyRestore(rawStr){
+  try{
+    const x=JSON.parse(rawStr.trim());if(!Array.isArray(x.customers))throw 0;
+    let en=x.entries||{};if(Array.isArray(en)){const o={};en.forEach(r=>o[r.customerId+'|'+r.date]=r.qty);en=o}
+    const s=x.settings||{};
+    D={customers:x.customers,entries:en,bills:x.bills||{},settings:{farm:s.farm||s.farmName||D.settings.farm,cur:s.cur||s.currency||'₹',upi:s.upi||'',lang:s.lang||'en',shiftMode:!!s.shiftMode}};
+    save();$('#farm').value=D.settings.farm;$('#upi').value=D.settings.upi;toast('Backup restored!');render();
+  }catch(x){toast('Not a valid backup file')}
+}
+
+document.addEventListener('click',e=>{
+  if(e.target.id==='langbtn'){
+    D.settings.lang=D.settings.lang==='hi'?'en':'hi';
+    save();render();return;
+  }
+  const t=e.target.closest('[data-tab],[data-act]');if(!t)return;
+  if(t.dataset.tab){tab=t.dataset.tab;edit=null;render();scrollTo(0,0);return}
+  const a=t.dataset.act,id=t.dataset.id,d=+t.dataset.d;
+  if(a==='adj'){
+    const cur=D.settings.shiftMode?qShift(id,date,shift):q(id,date);
+    setQ(id,Math.max(0,cur+d),shift);render();
+  }
+  else if(a==='day'){const x=new Date(date+'T00:00:00');x.setDate(x.getDate()+d);date=iso(x);render()}
+  else if(a==='today'){date=today();render()}
+  else if(a==='toggleshift'){D.settings.shiftMode=!D.settings.shiftMode;shift=D.settings.shiftMode?'M':'all';save();render()}
+  else if(a==='setshift'){shift=t.dataset.sh;render()}
+  else if(a==='usual'){
+    D.customers.forEach(c=>{
+      const cur=D.settings.shiftMode?qShift(c.id,date,shift):q(c.id,date);
+      if(c.usual&&!cur)setQ(c.id,c.usual,shift);
+    });
+    render();toast('Filled usual quantities');
+  }
+  else if(a==='clearday'){
+    if(confirm(`Clear all entries for ${fmtD(date)}?`)){
+      D.customers.forEach(c=>{
+        delete D.entries[c.id+'|'+date];
+        delete D.entries[c.id+'|'+date+'|M'];
+        delete D.entries[c.id+'|'+date+'|E'];
+      });
+      save();render();toast('Cleared day entries');
+    }
+  }
+  else if(a==='gobills'){tab='bills';if(t.dataset.ym)bym=t.dataset.ym;render();scrollTo(0,0)}
+  else if(a==='bm'){bym=shiftYm(bym,d);open=null;render()}
+  else if(a==='setbm'){bym=t.dataset.ym;open=null;render()}
+  else if(a==='open'){open=open===id?null:id;render()}
+  else if(a==='sent'){const k=id+'|'+bym;D.bills[k]=Object.assign(D.bills[k]||{rate:rateFor(D.customers.find(x=>x.id===id),bym)},{sent:true});save();setTimeout(render,400)}
+  else if(a==='rec'){
+    const c=D.customers.find(x=>x.id===id),totDue=Math.max(0,totalBalanceUpTo(c,bym));
+    const v=parseFloat(prompt(`Amount received from ${c.name} (₹):`,totDue||''));
+    if(v>0){pay(c,v);save();render();toast('Payment recorded')}
+  }
+  else if(a==='paid'){
+    const c=D.customers.find(x=>x.id===id),totDue=totalBalanceUpTo(c,bym);
+    if(totDue>0){
+      pay(c,totDue);
+      toast('Marked as paid');
+    }else{
+      // Undo ONLY the selected billing month (preserves earlier settled months!)
+      const k=id+'|'+bym,old=D.bills[k]||{};
+      D.bills[k]={sent:old.sent,rate:old.rate||c.rate,received:0,paid:false};
+      toast('Undid payment for '+monthLabel(bym));
+    }
+    save();render();
+  }
+  else if(a==='yday'){
+    const x=new Date(date+'T00:00:00');x.setDate(x.getDate()-1);const p=iso(x);
+    D.customers.forEach(c=>{
+      const v=D.settings.shiftMode?qShift(c.id,p,shift):q(c.id,p);
+      const cur=D.settings.shiftMode?qShift(c.id,date,shift):q(c.id,date);
+      if(v&&!cur)setQ(c.id,v,shift);
+    });
+    render();toast('Copied from yesterday');
+  }
+  else if(a==='edit'){edit=id;render();scrollTo(0,0)}
+  else if(a==='cancel'){edit=null;render()}
+  else if(a==='del'){
+    if(confirm('Remove this customer and all their milk & bill records?')){
+      D.customers=D.customers.filter(c=>c.id!==id);
+      for(const k in D.entries)if(k.startsWith(id+'|'))delete D.entries[k];
+      for(const k in D.bills)if(k.startsWith(id+'|'))delete D.bills[k];
+      if(open===id)open=null;
+      if(edit===id)edit=null;
+      save();render();toast('Customer removed');
+    }
+  }
+  else if(a==='savec'){
+    const name=$('#cn').value.trim(),phone=$('#cp').value.trim(),rate=parseFloat($('#cr').value),usual=parseFloat($('#cu').value)||0;
+    if(!name||!phone||!(rate>0)){toast('Please fill name, phone and rate');return}
+    if(edit){
+      const c=D.customers.find(x=>x.id===edit);
+      if(c){
+        // Snapshot old rate on existing unpaid/current months before updating customer's default rate
+        months(c.id).forEach(m=>{
+          const bk=c.id+'|'+m;
+          D.bills[bk]=D.bills[bk]||{};
+          if(!D.bills[bk].rate)D.bills[bk].rate=c.rate;
+        });
+        Object.assign(c,{name,phone,rate,usual});
+        // Update current month rate if explicitly edited
+        const curBk=c.id+'|'+ymNow();
+        if(D.bills[curBk])D.bills[curBk].rate=rate;
+      }
+    }else{
+      D.customers.push({id:uid(),name,phone,rate,usual});
+    }
+    save();toast(edit?'Changes saved':'Customer added');edit=null;render();
+  }
+  else if(a==='copy'){
+    const b=$('#bk');b.select();
+    try{navigator.clipboard.writeText(b.value)}catch(x){document.execCommand('copy')}
+    toast('Backup copied');
+  }
+  else if(a==='restore'){applyRestore($('#rs').value)}
+  else if(a==='dljson'){
+    const blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),aEl=document.createElement('a');
+    aEl.href=url;aEl.download=`milk-ledger-backup-${today()}.json`;aEl.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('Backup file downloaded');
+  }
+  else if(a==='uljson'){$('#file-in').click()}
+  else if(a==='csv'){
+    const rows=[['Customer Name','Phone','Month','Litres','Rate (INR)','Month Subtotal','Previous Balance','Received','Net Due']];
+    D.customers.forEach(c=>{
+      const l=mq(c.id,bym),r=rateFor(c,bym),sub=monthSub(c,bym),pd=due(c,bym),rec=(D.bills[c.id+'|'+bym]||{}).received||0,g=totalBalanceUpTo(c,bym);
+      rows.push([`"${c.name.replace(/"/g,'""')}"`,c.phone,bym,L(l),r,sub,pd,rec,g]);
+    });
+    const csvContent=rows.map(r=>r.join(',')).join('\n');
+    const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob),aEl=document.createElement('a');
+    aEl.href=url;aEl.download=`milk-report-${bym}.csv`;aEl.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('CSV exported');
+  }
+});
+
+// Avoid full DOM re-render while typing in quantity inputs so subsequent button clicks are never swallowed
+document.addEventListener('input',e=>{
+  if(e.target.classList.contains('qin')){
+    setQ(e.target.dataset.id,parseFloat(e.target.value)||0,shift);
+    const dtot=$('#day-tot');
+    if(dtot){
+      const tot=D.customers.reduce((s,c)=>s+q(c.id,date),0);
+      dtot.textContent=L(tot)+' L';
+    }
+  }else if(e.target.id==='sq'){
+    qs=e.target.value;$('#rows').innerHTML=erows();
+  }
+});
+
+document.addEventListener('change',e=>{
+  if(e.target.id==='dt'&&e.target.value){date=e.target.value;render()}
+  else if(e.target.id==='farm'){D.settings.farm=e.target.value.trim()||'Maa Ambe Dairy Farm';e.target.value=D.settings.farm;save()}
+  else if(e.target.id==='upi'){D.settings.upi=e.target.value.trim();save();toast('UPI ID saved')}
+  else if(e.target.id==='file-in'&&e.target.files[0]){
+    const reader=new FileReader();
+    reader.onload=ev=>applyRestore(ev.target.result);
+    reader.readAsText(e.target.files[0]);
+    e.target.value='';
+  }
+});
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+const sh=location.hash.match(/^#s=(.+)$/);
+if(sh){
+  $('#upibar').style.display='none';
+  $('#langbtn').style.display='none';
+  statement(sh[1]);
+}else{
+  load();
+  $('#farm').value=D.settings.farm;
+  $('#upi').value=D.settings.upi||'';
+  render();
+}
+})();
+</script>
+</body>
+</html>
