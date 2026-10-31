@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-accent="blue">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Maa Ambe Milk Ledger</title>
+<meta name="theme-color" content="#F4F7FB" id="meta-theme">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F7FB;
+  --orb-1: rgba(59, 130, 246, 0.18);
+  --orb-2: rgba(139, 92, 246, 0.14);
+  --orb-3: rgba(14, 165, 233, 0.15);
+  --glass: rgba(255, 255, 255, 0.78);
+  --glass-strong: rgba(255, 255, 255, 0.94);
+  --glass-sub: rgba(241, 245, 249, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.92);
+  --line: rgba(15, 23, 42, 0.07);
+  --shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03), inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+  --ink: #0F172A;
+  --mut: #64748B;
+  --pri: #2563EB;
+  --pri-2: #1D4ED8;
+  --pri-soft: rgba(37, 99, 235, 0.10);
+  --pri-glow: rgba(37, 99, 235, 0.28);
+  --ok: #10B981;
+  --ok-soft: rgba(16, 185, 129, 0.12);
+  --warn: #F59E0B;
+  --warn-soft: rgba(245, 158, 11, 0.12);
+  --bad: #EF4444;
+  --bad-soft: rgba(239, 68, 68, 0.10);
+  --nav-bg: rgba(255, 255, 255, 0.86);
+}
+
+[data-theme="dark"] {
+  --bg: #0B0F19;
+  --orb-1: rgba(37, 99, 235, 0.22);
+  --orb-2: rgba(124, 58, 237, 0.16);
+  --orb-3: rgba(14, 165, 233, 0.16);
+  --glass: rgba(17, 24, 39, 0.74);
+  --glass-strong: rgba(30, 41, 59, 0.92);
+  --glass-sub: rgba(15, 23, 42, 0.68);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --line: rgba(255, 255, 255, 0.07);
+  --shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  --ink: #F8FAFC;
+  --mut: #94A3B8;
+  --pri: #3B82F6;
+  --pri-2: #2563EB;
+  --pri-soft: rgba(59, 130, 246, 0.15);
+  --pri-glow: rgba(59, 130, 246, 0.35);
+  --ok: #34D399;
+  --ok-soft: rgba(52, 211, 153, 0.15);
+  --warn: #FBBF24;
+  --warn-soft: rgba(251, 191, 36, 0.15);
+  --bad: #F87171;
+  --bad-soft: rgba(248, 113, 113, 0.15);
+  --nav-bg: rgba(15, 23, 42, 0.84);
+}
+
+[data-accent="violet"] {
+  --pri: #7C3AED;
+  --pri-2: #6D28D9;
+  --pri-soft: rgba(124, 58, 237, 0.12);
+  --pri-glow: rgba(124, 58, 237, 0.30);
+}
+[data-theme="dark"][data-accent="violet"] {
+  --pri: #8B5CF6;
+  --pri-2: #7C3AED;
+}
+[data-accent="coral"] {
+  --pri: #E11D48;
+  --pri-2: #BE123C;
+  --pri-soft: rgba(225, 29, 72, 0.11);
+  --pri-glow: rgba(225, 29, 72, 0.28);
+}
+[data-theme="dark"][data-accent="coral"] {
+  --pri: #F43F5E;
+  --pri-2: #E11D48;
+}
+[data-accent="cyan"] {
+  --pri: #0284C7;
+  --pri-2: #0369A1;
+  --pri-soft: rgba(2, 132, 199, 0.11);
+  --pri-glow: rgba(2, 132, 199, 0.28);
+}
+[data-theme="dark"][data-accent="cyan"] {
+  --pri: #38BDF8;
+  --pri-2: #0284C7;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font: 500 15px/1.5 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-variant-numeric: tabular-nums;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: floatOrb 20s ease-in-out infinite alternate;
+}
+.orb-1 { width: 340px; height: 340px; background: var(--orb-1); top: -100px; right: -60px; }
+.orb-2 { width: 300px; height: 300px; background: var(--orb-2); top: 35%; left: -90px; animation-delay: -6s; }
+.orb-3 { width: 320px; height: 320px; background: var(--orb-3); bottom: -80px; right: 10%; animation-delay: -12s; }
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(20px, -25px) scale(1.08); }
+}
+
+.app {
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 112px;
+}
+
+header {
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 18px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+  cursor: pointer;
+}
+.brand-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--pri), var(--pri-2));
+  box-shadow: 0 6px 16px var(--pri-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.brand-logo svg { width: 22px; height: 22px; fill: #fff; }
+.brand-text { min-width: 0; flex: 1; }
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pri);
+  font-weight: 800;
+}
+#farm-display {
+  font: 800 19px/1.2 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hdr-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  font: 700 12px 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.icon-btn:active { transform: scale(0.93); }
+
+.settings-drawer {
+  margin: 6px 16px 8px;
+  padding: 16px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  display: none;
+  animation: fadeSlide 0.22s ease;
+}
+.settings-drawer.open { display: block; }
+.swatch-row { display: flex; gap: 8px; margin-top: 8px; }
+.swatch {
+  flex: 1;
+  height: 34px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font: 700 11px 'Plus Jakarta Sans', sans-serif;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swatch.active { border-color: var(--ink); transform: scale(1.03); }
+
+main {
+  padding: 8px 16px;
+  animation: fadeSlide 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, var(--pri), var(--pri-2));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 16px 36px -8px var(--pri-glow);
+  padding: 22px 20px;
+}
+.hero-card::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -15%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+.hero-big {
+  font: 800 44px/1.05 'Plus Jakarta Sans', sans-serif;
+  color: #fff;
+  margin: 10px 0 4px;
+  letter-spacing: -0.03em;
+}
+.hero-big small { font-size: 16px; font-weight: 600; opacity: 0.85; }
+.hero-sub { font-size: 13px; color: rgba(255, 255, 255, 0.82); margin-bottom: 16px; }
+.hero-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  border: 0;
+  background: #fff;
+  color: var(--pri-2);
+  font: 800 14px 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease;
+  position: relative;
+  z-index: 1;
+}
+.hero-btn:active { transform: scale(0.97); }
+
+.ring-wrap {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ring-wrap svg { width: 64px; height: 64px; transform: rotate(-90deg); }
+.ring-wrap span { position: absolute; font: 800 12px 'Plus Jakarta Sans', sans-serif; color: #fff; }
+
+h2 {
+  font: 800 16px 'Plus Jakarta Sans', sans-serif;
+  margin: 0 0 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  letter-spacing: -0.01em;
+}
+.mut { color: var(--mut); font-size: 13px; }
+.big {
+  font: 800 38px/1.1 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  margin: 4px 0;
+  letter-spacing: -0.02em;
+}
+
+.grid2, .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid2 { margin-bottom: 14px; }
+.stat { margin: 0; padding: 16px; }
+.stat span { font-size: 12px; font-weight: 600; color: var(--mut); display: block; }
+.stat b { font: 800 22px 'Plus Jakarta Sans', sans-serif; color: var(--ink); display: block; margin-top: 6px; }
+
+.trend-bars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  align-items: end;
+  height: 88px;
+  padding-top: 12px;
+  margin-top: 6px;
+}
+.t-col { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+.t-bar-wrap {
+  width: 100%;
+  height: 50px;
+  background: var(--glass-sub);
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 2px;
+}
+.t-bar {
+  width: 100%;
+  background: var(--pri-soft);
+  border-top: 2px solid var(--pri);
+  border-radius: 6px;
+  transition: height 0.4s ease;
+  min-height: 4px;
+}
+.t-col.active .t-bar { background: linear-gradient(180deg, var(--pri), var(--pri-2)); border-top: 0; }
+.t-val { font-size: 10px; font-weight: 700; color: var(--ink); }
+.t-lbl { font-size: 10px; color: var(--mut); font-weight: 600; }
+
+.bar { height: 8px; background: var(--glass-sub); border-radius: 8px; overflow: hidden; margin: 8px 0; }
+.bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--pri), var(--ok)); border-radius: 8px; transition: width 0.4s ease; }
+
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin: 12px 0 6px;
+}
+input, textarea {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--glass-sub);
+  font: 600 14px 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  transition: all 0.2s;
+}
+textarea { height: 64px; padding: 10px 14px; font: 11px monospace; }
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--pri);
+  background: var(--glass-strong);
+  box-shadow: 0 0 0 3px var(--pri-soft);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 45px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--pri), var(--pri-2));
+  color: #fff;
+  font: 700 13.5px 'Plus Jakarta Sans', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0 12px;
+  box-shadow: 0 6px 16px -4px var(--pri-glow);
+  transition: transform 0.15s ease, opacity 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn.ghost {
+  background: var(--glass-sub);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.btn.wa { background: #10B981; box-shadow: 0 6px 16px -4px rgba(16, 185, 129, 0.35); }
+.btn.sms { background: #3B82F6; box-shadow: 0 6px 16px -4px rgba(59, 130, 246, 0.35); }
+.btn.upi { background: #6366F1; box-shadow: 0 6px 16px -4px rgba(99, 102, 241, 0.35); }
+.btn.call { background: #0EA5E9; box-shadow: 0 6px 16px -4px rgba(14, 165, 233, 0.35); }
+.btn.danger { background: var(--bad); color: #fff; box-shadow: 0 6px 16px -4px rgba(239, 68, 68, 0.35); }
+.btn.sm { min-height: 34px; font-size: 12px; margin-top: 0; width: auto; padding: 0 12px; border-radius: 10px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.row:last-child { border-bottom: 0; }
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--pri-soft);
+  color: var(--pri);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 800 13px 'Plus Jakarta Sans', sans-serif;
+  flex-shrink: 0;
+  position: relative;
+}
+.avatar.done { background: var(--ok-soft); color: var(--ok); }
+.avatar.done::after {
+  content: "✓";
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--ok);
+  color: #fff;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg);
+}
+.grow { flex: 1; min-width: 0; }
+.tap { cursor: pointer; }
+
+.qchips { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+.qchip {
+  font: 700 10.5px 'Plus Jakarta Sans', sans-serif;
+  padding: 3px 8px;
+  border-radius: 7px;
+  background: var(--glass-sub);
+  color: var(--mut);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.qchip.active { background: var(--pri-soft); color: var(--pri); border-color: var(--pri); }
+
+.step { display: flex; align-items: center; gap: 5px; }
+.step button, .datebar button {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--glass-strong);
+  color: var(--ink);
+  font: 700 18px 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.12s ease;
+}
+.step button:active, .datebar button:active { transform: scale(0.88); }
+.step input { width: 54px; height: 36px; text-align: center; padding: 0; font-weight: 800; border-radius: 10px; }
+
+.datebar { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.datebar input { text-align: center; height: 38px; }
+.mlabel { flex: 1; text-align: center; font: 800 17px 'Plus Jakarta Sans', sans-serif; }
+
+.tot { display: flex; justify-content: space-between; padding: 14px 2px 2px; font-weight: 700; }
+.amt { font: 800 16px 'Plus Jakarta Sans', sans-serif; }
+
+.chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--glass-sub);
+  color: var(--mut);
+  white-space: nowrap;
+}
+.chip.gold { background: var(--warn-soft); color: var(--warn); }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+
+.pills {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+  background: var(--glass-sub);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.pill {
+  flex: 1;
+  height: 32px;
+  border-radius: 9px;
+  border: 0;
+  background: transparent;
+  color: var(--mut);
+  font: 700 11.5px 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pill.on {
+  background: var(--glass-strong);
+  color: var(--pri);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.det {
+  padding: 12px 14px 16px;
+  margin: 6px 0 10px;
+  background: var(--glass-sub);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  animation: fadeSlide 0.2s ease;
+}
+.det .l { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 13px; }
+.det .l.t {
+  font-weight: 800;
+  border-top: 1px dashed var(--line);
+  margin-top: 6px;
+  padding-top: 10px;
+  font-size: 15px;
+}
+
+.pay-log {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: var(--glass);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+.pay-log-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pay-log-item:last-child { border-bottom: 0; }
+.pay-del {
+  background: none;
+  border: 0;
+  color: var(--bad);
+  font-weight: 800;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.cal-hint {
+  font-size: 11px;
+  color: var(--mut);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.calgrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin: 4px 0 12px;
+}
+.calcell {
+  background: var(--glass-strong);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 5px 2px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--mut);
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.15s;
+}
+.calcell:hover, .calcell:active {
+  transform: scale(0.93);
+  border-color: var(--pri);
+}
+.calcell b {
+  display: block;
+  color: var(--pri);
+  font-size: 11px;
+  margin-top: 1px;
+}
+.calcell.zero { opacity: 0.45; }
+
+.acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.acts3 { display: grid; grid-template-columns: 1.2fr 1fr 0.8fr; gap: 8px; }
+.empty { text-align: center; color: var(--mut); padding: 28px 14px; }
+.del {
+  background: var(--glass-sub);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--bad);
+  font: 700 12px 'Plus Jakarta Sans', sans-serif;
+  padding: 6px 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom Glass Bottom-Sheet Modal (Replaces native prompt/confirm) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 15, 25, 0.52);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  animation: fadeIn 0.18s ease;
+}
+.modal-backdrop.open { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal-sheet {
+  width: 100%;
+  max-width: 468px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 20px 18px calc(env(safe-area-inset-bottom, 0px) + 18px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  animation: sheetUp 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes sheetUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-handle {
+  width: 38px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--line);
+  margin: 0 auto 14px;
+}
+.qr-box {
+  background: #fff;
+  padding: 16px;
+  border-radius: 20px;
+  width: 220px;
+  height: 220px;
+  margin: 12px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border: 1px solid var(--line);
+}
+.qr-box svg, .qr-box img { width: 100%; height: 100%; display: block; }
+
+nav {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  max-width: 468px;
+  margin: 0 auto;
+  background: var(--nav-bg);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: 0 14px 34px -6px rgba(15, 23, 42, 0.16);
+  padding: 5px;
+  z-index: 10;
+}
+nav div { display: flex; width: 100%; }
+nav button {
+  flex: 1;
+  background: none;
+  border: 0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 7px 0;
+  font: 700 11px 'Plus Jakarta Sans', sans-serif;
+  color: var(--mut);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+nav button.on { color: var(--pri); background: var(--pri-soft); }
+nav svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.toast {
+  position: fixed;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 18px;
+  border-radius: 20px;
+  font: 700 13px 'Plus Jakarta Sans', sans-serif;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 60;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
+
+@media print {
+  nav, header, .settings-drawer, .no-print, .ambient-bg, #confetti, .modal-backdrop { display: none !important; }
+  body { background: #fff; color: #000; }
+  .app { max-width: 100%; padding: 0; }
+  .card, .det { box-shadow: none; border: 1px solid #ccc; background: #fff; color: #000; }
+}
+</style>
+</head>
+<body>
+<div class="ambient-bg">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<canvas id="confetti"></canvas>
+
+<div class="app">
+<header>
+  <div class="brand-wrap" id="open-settings" title="Tap to edit dairy name & settings">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2.5C12 2.5 6 10 6 14.5C6 17.8 8.7 20.5 12 20.5C15.3 20.5 18 17.8 18 14.5C18 10 12 2.5 12 2.5Z"/></svg>
+    </div>
+    <div class="brand-text">
+      <div class="eyebrow">Milk Ledger</div>
+      <div id="farm-display">Maa Ambe Dairy Farm</div>
+    </div>
+  </div>
+  <div class="hdr-actions">
+    <button class="icon-btn" id="langbtn" type="button">हिंदी / EN</button>
+    <button class="icon-btn" id="themebtn" type="button" title="Switch Dark / Light">🌙</button>
+    <button class="icon-btn" id="gearbtn" type="button" title="Settings & Theme">⚙️</button>
+  </div>
+</header>
+
+<div class="settings-drawer" id="drawer">
+  <h2><span>⚙️ Dairy & Appearance Settings</span><button type="button" class="btn ghost sm" id="closedrawer">Done</button></h2>
+  <label style="margin-top:4px">Dairy / Business Name</label>
+  <input id="farm" placeholder="Maa Ambe Dairy Farm">
+  <label>UPI ID (for QR code & 1-tap customer payment)</label>
+  <input id="upi" placeholder="e.g. 9876543210@ybl">
+  <label>Accent Color</label>
+  <div class="swatch-row">
+    <button type="button" class="swatch" data-acc="blue" style="background:#2563EB">Cobalt</button>
+    <button type="button" class="swatch" data-acc="violet" style="background:#7C3AED">Violet</button>
+    <button type="button" class="swatch" data-acc="cyan" style="background:#0284C7">Sky</button>
+    <button type="button" class="swatch" data-acc="coral" style="background:#E11D48">Rose</button>
+  </div>
+</div>
+
+<main id="main"></main>
+</div>
+
+<!-- Glass Bottom-Sheet Modal Container -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal-sheet" id="modal-body"></div>
+</div>
+
+<nav><div>
+<button data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i18n="nav_home">Home</span></button>
+<button data-tab="entry"><svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 6.5 6 10a6 6 0 0 1-12 0c0-3.5 3-6 6-10z"/></svg><span data-i18n="nav_entry">Entry</span></button>
+<button data-tab="bills"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg><span data-i18n="nav_bills">Bills</span></button>
+<button data-tab="cust"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><path d="M17 4.5a3.5 3.5 0 0 1 0 7M21.5 20c0-2.8-1.7-4.8-4-5.6"/></svg><span data-i18n="nav_cust">Customers</span></button>
+</div></nav>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="file-in" accept=".json,application/json" style="display:none">
+
+<script>
+(()=>{
+/* Compact Offline QR Code SVG Generator (Versions 1-10, Byte Mode, ECC Level L) */
+const QR=(()=>{
+  const GF256_EXP=new Uint8Array(512),GF256_LOG=new Uint8Array(256);
+  let x=1;for(let i=0;i<255;i++){GF256_EXP[i]=x;GF256_LOG[x]=i;x=(x<<1)^((x&128)?0x11d:0)}
+  for(let i=255;i<512;i++)GF256_EXP[i]=GF256_EXP[i-255];
+  const gfMul=(a,b)=>(a===0||b===0)?0:GF256_EXP[GF256_LOG[a]+GF256_LOG[b]];
+  function rsEncode(data,ecLen){
+    let gen=[1];
+    for(let i=0;i<ecLen;i++){
+      const next=new Array(gen.length+1).fill(0);
+      for(let j=0;j<gen.length;j++){next[j]^=gen[j];next[j+1]^=gfMul(gen[j],GF256_EXP[i])}
+      gen=next;
+    }
+    const msg=new Uint8Array(data.length+ecLen);msg.set(data);
+    for(let i=0;i<data.length;i++){
+      const coef=msg[i];
+      if(coef!==0)for(let j=0;j<gen.length;j++)msg[i+j]^=gfMul(gen[j],coef);
+    }
+    return msg.slice(data.length);
+  }
+  // Version table for ECC L: [totalDataBytes, ecBytesPerBlock, numBlocks, alignCenters]
+  const VTAB=[
+    null,
+    [19,7,1,[]],[34,10,1,[]],[55,15,1,[]],[80,20,1,[]],[108,26,1,[]],
+    [136,18,2,[6,30]],[156,20,2,[6,22,38]],[194,24,2,[6,24,42]],[232,30,2,[6,26,46]]
+  ];
+  function makeSvg(text){
+    const bytes=new TextEncoder().encode(text);
+    let ver=1;
+    while(ver<VTAB.length && VTAB[ver][0]<bytes.length+3)ver++;
+    if(ver>=VTAB.length)return '';
+    const [totData,ecLen,blocks,align]=VTAB[ver];
+    const bits=[];
+    const pushBits=(v,n)=>{for(let i=n-1;i>=0;i--)bits.push((v>>i)&1)};
+    pushBits(4,4);pushBits(bytes.length,ver<10?8:16);
+    bytes.forEach(b=>pushBits(b,8));
+    pushBits(0,Math.min(4,totData*8-bits.length));
+    while(bits.length%8)bits.push(0);
+    const dataBytes=new Uint8Array(totData);
+    for(let i=0;i<bits.length/8;i++){
+      let b=0;for(let j=0;j<8;j++)b=(b<<1)|bits[i*8+j];
+      dataBytes[i]=b;
+    }
+    let padByte=0xEC;
+    for(let i=bits.length/8;i<totData;i++){dataBytes[i]=padByte;padByte=padByte===0xEC?0x11:0xEC}
+    // Split into blocks & interleave
+    const blkSize=totData/blocks,dBlocks=[],eBlocks=[];
+    for(let b=0;b<blocks;b++){
+      const sub=dataBytes.slice(b*blkSize,(b+1)*blkSize);
+      dBlocks.push(sub);eBlocks.push(rsEncode(sub,ecLen));
+    }
+    const finalBytes=[];
+    for(let i=0;i<blkSize;i++)for(let b=0;b<blocks;b++)finalBytes.push(dBlocks[b][i]);
+    for(let i=0;i<ecLen;i++)for(let b=0;b<blocks;b++)finalBytes.push(eBlocks[b][i]);
+
+    const size=ver*4+17;
+    const mat=Array.from({length:size},()=>new Int8Array(size).fill(-1));
+    const isFunc=Array.from({length:size},()=>new Uint8Array(size));
+    const setMod=(r,c,v)=>{mat[r][c]=v?1:0;isFunc[r][c]=1};
+    const finder=(R,C)=>{
+      for(let dy=-1;dy<=7;dy++)for(let dx=-1;dx<=7;dx++){
+        const r=R+dy,c=C+dx;
+        if(r<0||r>=size||c<0||c>=size)continue;
+        const on=(dy>=0&&dy<=6&&dx>=0&&dx<=6)&&(dy===0||dy===6||dx===0||dx===6||(dy>=2&&dy<=4&&dx>=2&&dx<=4));
+        setMod(r,c,on);
+      }
+    };
+    finder(0,0);finder(0,size-7);finder(size-7,0);
+    for(let i=8;i<size-8;i++){setMod(6,i,i%2===0);setMod(i,6,i%2===0)}
+    for(let r of align)for(let c of align){
+      if((r===6&&c===6)||(r===6&&c===size-7)||(r===size-7&&c===6))continue;
+      for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)setMod(r+dy,c+dx,Math.max(Math.abs(dy),Math.abs(dx))!==1);
+    }
+    for(let i=0;i<9;i++){
+      if(i!==6){isFunc[8][i]=1;isFunc[i][8]=1}
+      if(i<8){isFunc[8][size-1-i]=1;isFunc[size-1-i][8]=1}
+    }
+    setMod(size-8,8,1);
+
+    let bitIdx=0,up=true;
+    for(let right=size-1;right>=1;right-=2){
+      if(right===6)right=5;
+      for(let vert=0;vert<size;vert++){
+        const r=up?size-1-vert:vert;
+        for(let j=0;j<2;j++){
+          const c=right-j;
+          if(!isFunc[r][c]){
+            let v=0;
+            if(bitIdx<finalBytes.length*8)v=(finalBytes[bitIdx>>3]>>(7-(bitIdx&7)))&1;
+            bitIdx++;
+            if((r+c)%2===0)v^=1; // Mask 0
+            mat[r][c]=v;
+          }
+        }
+      }
+      up=!up;
+    }
+    // Format bits for ECC L (01) + Mask 0 (000) -> 0x77c4
+    const fmt=0x77c4;
+    const fPos1=[[8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,7],[8,8],[7,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8]];
+    const fPos2=[[size-1,8],[size-2,8],[size-3,8],[size-4,8],[size-5,8],[size-6,8],[size-7,8],[8,size-8],[8,size-7],[8,size-6],[8,size-5],[8,size-4],[8,size-3],[8,size-2],[8,size-1]];
+    for(let i=0;i<15;i++){
+      const b=(fmt>>i)&1;
+      mat[fPos1[i][0]][fPos1[i][1]]=b;
+      mat[fPos2[i][0]][fPos2[i][1]]=b;
+    }
+    let path='';
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(mat[r][c]===1)path+=`M${c+2},${r+2}h1v1h-1z`;
+    return `<svg viewBox="0 0 ${size+4} ${size+4}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${path}" fill="#0F172A"/></svg>`;
+  }
+  return {makeSvg};
+})();
+
+const KEY='ml2',$=s=>document.querySelector(s),MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const I18N={
+  en:{
+    nav_home:'Home',nav_entry:'Entry',nav_bills:'Bills',nav_cust:'Customers',
+    today:'Today',litres:'litres',deliv_to:'Delivered to',of:'of',custs:'customers',
+    add_first:'Add your first customer to begin',rec_today:'Record today’s milk',add_cust:'Add a customer',
+    this_month:'This month',to_collect:'To collect',bills_lbl:'bills',sent_lbl:'sent',
+    open_bills:'Open bills',no_milk_last:'No milk recorded for this month.',
+    search_ph:'Search customer name or phone...',tot_day:'Total for the day',saved_auto:'Auto-saved to device',
+    usual_btn:'Fill Usual',yday_btn:'Copy Yesterday',clear_btn:'Clear Day',
+    morning:'Morning (AM)',evening:'Evening (PM)',all_day:'Full Day',
+    no_milk_for:'No bills matching filter for',paid:'Paid',advance:'Advance',part_paid:'Part paid',sent:'Sent',to_send:'To send',
+    prev_unpaid:'Previous balance',received:'Received',tot_due:'Total due',
+    rec_pay:'Record payment',mark_paid:'Mark month paid',undo_pay:'Undo month payment',
+    edit_cust:'Edit customer',name:'Name',phone:'Phone',rate:'Rate per litre',usual:'Usual litres/day',
+    save_chg:'Save changes',cancel:'Cancel',backup:'Backup & Export',
+    dl_json:'Download Backup (.json)',ul_json:'Import Backup File',export_csv:'Export Monthly CSV',
+    trend_7d:'Last 7 Days Delivery (Tap any bar)'
+  },
+  hi:{
+    nav_home:'होम',nav_entry:'एंट्री',nav_bills:'बिल',nav_cust:'ग्राहक',
+    today:'आज',litres:'लीटर',deliv_to:'आज की सप्लाई:',of:'/',custs:'ग्राहक',
+    add_first:'शुरू करने के लिए पहला ग्राहक जोड़ें',rec_today:'आज का दूध दर्ज करें',add_cust:'ग्राहक जोड़ें',
+    this_month:'इस महीने',to_collect:'कुल बकाया',bills_lbl:'बिल',sent_lbl:'भेजे गए',
+    open_bills:'बिल देखें',no_milk_last:'कोई दूध रिकॉर्ड नहीं है।',
+    search_ph:'ग्राहक खोजें...',tot_day:'आज का कुल दूध',saved_auto:'ऑटो-सेव चालू है',
+    usual_btn:'रोज़ की मात्रा भरें',yday_btn:'कल जैसा भरें',clear_btn:'आज का रीसेट',
+    morning:'सुबह (AM)',evening:'शाम (PM)',all_day:'पूरा दिन',
+    no_milk_for:'कोई बिल नहीं मिला:',paid:'भुगतान हो गया',advance:'अग्रिम जमा',part_paid:'आंशिक भुगतान',sent:'भेजा गया',to_send:'भेजना बाकी',
+    prev_unpaid:'पिछला बकाया',received:'प्राप्त राशि',tot_due:'कुल देय राशि',
+    rec_pay:'पेमेंट दर्ज करें',mark_paid:'पूरा भुगतान मार्क करें',undo_pay:'भुगतान हटाएं',
+    edit_cust:'ग्राहक बदलें',name:'नाम',phone:'मोबाइल नंबर',rate:'भाव (₹ प्रति लीटर)',usual:'रोज़ का दूध (लीटर)',
+    save_chg:'बदलाव सेव करें',cancel:'रद्द करें',backup:'बैकअप और रिपोर्ट',
+    dl_json:'बैकअप फाइल डाउनलोड (.json)',ul_json:'बैकअप फाइल अपलोड',export_csv:'CSV रिपोर्ट डाउनलोड',
+    trend_7d:'पिछले 7 दिनों का ग्राफ (देखने के लिए टैप करें)'
+  }
+};
+
+let D={customers:[],entries:{},bills:{},settings:{farm:'Maa Ambe Dairy Farm',cur:'₹',upi:'',lang:'en',shiftMode:false,theme:'light',accent:'blue'}};
+let lsOK=true,tab='home',open=null,edit=null,qs='',shift='all',bfilter='all';
+
+const T=k=>(I18N[D.settings.lang||'en']||I18N.en)[k]||I18N.en[k]||k;
+const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>iso(new Date()),ymNow=()=>today().slice(0,7);
+const shiftYm=(ym,n)=>{const[y,m]=ym.split('-').map(Number),d=new Date(y,m-1+n,1);return d.getFullYear()+'-'+pad(d.getMonth()+1)};
+const prevYm=()=>shiftYm(ymNow(),-1),monthLabel=ym=>{const[y,m]=ym.split('-');return MN[m-1]+' '+y};
+const fmtD=s=>{if(!s||!s.includes('-'))return s||'';const[,m,d]=s.split('-');return +d+' '+MN[m-1].slice(0,3)};
+let date=today(),bym=ymNow();
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const L=n=>+Number(n||0).toFixed(2),M=n=>D.settings.cur+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
+const smsHref=(dg,body)=>`sms:${dg}${/iPhone|iPad|iPod/i.test(navigator.userAgent)?'?&':'?'}body=${body}`;
+const haptic=(ms=8)=>{try{if(navigator.vibrate)navigator.vibrate(ms)}catch(e){}};
+
+function openModal(html){
+  $('#modal-body').innerHTML=`<div class="modal-handle"></div>`+html;
+  $('#modal').classList.add('open');
+}
+function closeModal(){
+  $('#modal').classList.remove('open');
+}
+
+function avatarHtml(name,done=false){
+  const parts=String(name||'C').trim().split(/\s+/);
+  const ini=(parts[0]?parts[0][0]:'C')+(parts[1]?parts[1][0]:'');
+  return `<div class="avatar ${done?'done':''}">${esc(ini.toUpperCase())}</div>`;
+}
+
+function burstConfetti(){
+  const cv=$('#confetti');if(!cv)return;
+  const ctx=cv.getContext('2d');
+  cv.width=window.innerWidth;cv.height=window.innerHeight;
+  const pieces=Array.from({length:48},()=>({
+    x:cv.width/2,y:cv.height*0.55,
+    vx:(Math.random()-0.5)*13,vy:-Math.random()*13-4,
+    s:Math.random()*6+4,
+    c:['#3B82F6','#10B981','#8B5CF6','#F59E0B','#EC4899'][Math.floor(Math.random()*5)],
+    r:Math.random()*6.28,vr:(Math.random()-0.5)*0.2
+  }));
+  let frame=0;
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pieces.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.42;p.r+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+      ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6);
+      ctx.restore();
+    });
+    if(++frame<60)requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,cv.width,cv.height);
+  }
+  requestAnimationFrame(tick);
+}
+
+function applyTheme(){
+  const th=D.settings.theme||'light';
+  const acc=D.settings.accent||'blue';
+  document.documentElement.setAttribute('data-theme',th);
+  document.documentElement.setAttribute('data-accent',acc);
+  const btn=$('#themebtn');
+  if(btn)btn.textContent=th==='dark'?'☀️':'🌙';
+  const mt=$('#meta-theme');
+  if(mt)mt.setAttribute('content',th==='dark'?'#0B0F19':'#F4F7FB');
+  document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('active',s.dataset.acc===acc));
+}
+
+function load(){
+  try{
+    const r=localStorage.getItem(KEY);
+    if(r){
+      const parsed=JSON.parse(r);
+      D.customers=parsed.customers||[];
+      D.entries=parsed.entries||{};
+      D.bills=parsed.bills||{};
+      D.settings=Object.assign(D.settings,parsed.settings||{});
+      if(!parsed.settings || !parsed.settings.theme) D.settings.theme='light';
+      if(!parsed.settings || !parsed.settings.accent) D.settings.accent='blue';
+    }
+    const py=prevYm();
+    const hasPrev=Object.keys(D.entries).some(k=>k.includes('|'+py));
+    const hasCurr=Object.keys(D.entries).some(k=>k.includes('|'+ymNow()));
+    bym=(hasPrev&&!hasCurr)?py:ymNow();
+  }catch(e){lsOK=false}
+  applyTheme();
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){lsOK=false}}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900)}
+
+function qShift(c,d,sh){
+  if(sh==='M')return D.entries[c+'|'+d+'|M']||0;
+  if(sh==='E')return D.entries[c+'|'+d+'|E']||0;
+  return (D.entries[c+'|'+d]||0)+(D.entries[c+'|'+d+'|M']||0)+(D.entries[c+'|'+d+'|E']||0);
+}
+const q=(c,d)=>qShift(c,d,'all');
+
+function setQOnDate(c,targetDate,v,sh='all'){
+  v=Math.max(0,L(v));
+  const base=c+'|'+targetDate;
+  if(D.settings.shiftMode && (sh==='M'||sh==='E')){
+    if(D.entries[base]){
+      D.entries[base+'|M']=(D.entries[base+'|M']||0)+D.entries[base];
+      delete D.entries[base];
+    }
+    const k=base+'|'+sh;
+    v>0?D.entries[k]=v:delete D.entries[k];
+  }else{
+    delete D.entries[base+'|M'];
+    delete D.entries[base+'|E'];
+    v>0?D.entries[base]=v:delete D.entries[base];
+  }
+  const ym=targetDate.slice(0,7),bk=c+'|'+ym;
+  const custObj=D.customers.find(x=>x.id===c);
+  if(custObj){
+    D.bills[bk]=D.bills[bk]||{};
+    if(!D.bills[bk].rate)D.bills[bk].rate=custObj.rate;
+  }
+  save();
+}
+function setQ(c,v,sh=shift){setQOnDate(c,date,v,sh)}
+
+function mq(c,ym){
+  let s=0;
+  const prefix=c+'|'+ym;
+  for(const k in D.entries)if(k.startsWith(prefix))s+=D.entries[k];
+  return L(s);
+}
+function dayBreakdown(c,ym){
+  const map={};
+  const prefix=c+'|'+ym+'-';
+  for(const k in D.entries){
+    if(k.startsWith(prefix)){
+      const rest=k.slice(prefix.length);
+      const day=rest.slice(0,2);
+      map[day]=L((map[day]||0)+D.entries[k]);
+    }
+  }
+  return map;
+}
+function months(c){
+  const s=new Set();
+  const p=c+'|';
+  for(const k in D.entries)if(k.startsWith(p))s.add(k.slice(p.length,p.length+7));
+  for(const k in D.bills)if(k.startsWith(p))s.add(k.slice(p.length,p.length+7));
+  return[...s].filter(x=>/^\d{4}-\d{2}$/.test(x)).sort();
+}
+function rateFor(c,ym){
+  const b=D.bills[c.id+'|'+ym];
+  return (b&&b.rate)?b.rate:c.rate;
+}
+function monthSub(c,ym){
+  return L(mq(c.id,ym)*rateFor(c,ym));
+}
+function netMonth(c,ym){
+  const b=D.bills[c.id+'|'+ym]||{};
+  const sub=monthSub(c,ym);
+  if(b.paid && !(b.received>sub))return 0;
+  return L(sub-(b.received||0));
+}
+function owed(c,ym){return Math.max(0,netMonth(c,ym))}
+function due(c,ym){
+  let s=0;
+  months(c.id).forEach(m=>{if(m<ym)s+=netMonth(c,m)});
+  return L(s);
+}
+function totalBalanceUpTo(c,ym){
+  return L(due(c,ym)+netMonth(c,ym));
+}
+
+// Record payment with installment history log (date, amount, note)
+function pay(c,amt,payDate=today(),note=''){
+  amt=L(amt);
+  if(!(amt>0))return;
+  const origAmt=amt;
+  const ms=months(c.id).filter(m=>m<=bym);
+  if(!ms.includes(bym))ms.push(bym);
+  ms.sort();
+  ms.forEach(m=>{
+    const k=c.id+'|'+m,b=D.bills[k]=D.bills[k]||{rate:rateFor(c,m)};
+    const sub=monthSub(c,m),o=owed(c,m);
+    if(amt>0&&o>0){
+      const x=L(Math.min(o,amt));
+      b.received=L((b.received||0)+x);
+      amt=L(amt-x);
+    }
+    if(sub>0&&(b.received||0)>=sub-0.005)b.paid=true;
+  });
+  const k=c.id+'|'+bym,b=D.bills[k]=D.bills[k]||{rate:rateFor(c,bym)};
+  if(amt>0){
+    b.received=L((b.received||0)+amt);
+    b.paid=true;
+  }
+  b.payments=b.payments||[];
+  b.payments.push({id:uid(),date:payDate||today(),amt:origAmt,note:note.trim()});
+}
+
+function digits(p){let d=String(p||'').replace(/\D/g,'');if(d.length===10)d='91'+d;return d}
+const empty=m=>`<div class="card empty">${m}</div>`;
+
+function slink(c){
+  const m={},p={},rt={},pl={};
+  months(c.id).slice(-6).forEach(ym=>{
+    const d=dayBreakdown(c.id,ym);
+    if(Object.keys(d).length||D.bills[c.id+'|'+ym]){
+      m[ym]=d;
+      const b=D.bills[c.id+'|'+ym]||{},sub=monthSub(c,ym);
+      p[ym]=b.paid&&!(b.received>sub)?sub:L(b.received||0);
+      rt[ym]=rateFor(c,ym);
+      if(b.payments&&b.payments.length)pl[ym]=b.payments.map(x=>({d:x.date,a:x.amt,n:x.note||''}));
+    }
+  });
+  const j=JSON.stringify({f:D.settings.farm,u:D.settings.upi||'',n:c.name,r:c.rate,rt,c:D.settings.cur,g:today(),m,p,pl});
+  return location.href.split('#')[0]+'#s='+btoa(unescape(encodeURIComponent(j))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+function statement(h){
+  let s;try{s=JSON.parse(decodeURIComponent(escape(atob(h.replace(/-/g,'+').replace(/_/g,'/')))))}catch(e){s=null}
+  document.querySelector('nav').remove();
+  if(!s){$('#main').innerHTML=empty('This link isn’t valid. Ask for a new one.');return}
+  document.title=s.f+' · '+s.n;
+  $('#farm-display').textContent=s.f;
+  $('.hdr-actions').style.display='none';
+  const cu=s.c||'₹',m$=n=>cu+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
+  let due=0;
+  const cards=Object.keys(s.m).sort().reverse().map(ym=>{
+    const dy=s.m[ym],ks=Object.keys(dy).sort(),l=ks.reduce((a,k)=>a+dy[k],0),rate=(s.rt&&s.rt[ym])||s.r,sub=L(l*rate),rec=(s.p||{})[ym]||0,o=L(sub-rec);
+    due=L(due+o);
+    const logs=((s.pl||{})[ym]||[]).map(x=>`<div class="mut" style="font-size:11px;display:flex;justify-content:space-between"><span>✓ Paid on ${fmtD(x.d)}${x.n?' ('+esc(x.n)+')':''}</span><b>${m$(x.a)}</b></div>`).join('');
+    return `<div class="card"><h2><span>${monthLabel(ym)}</span><span class="chip ${o<=0?'ok':'gold'}">${o<=0?'Paid':m$(o)+' due'}</span></h2>${ks.map(k=>`<div class="row" style="padding:8px 0"><div class="grow">${fmtD(ym+'-'+k)}</div><b>${L(dy[k])} L</b></div>`).join('')}<div class="tot"><span>${L(l)} L × ${m$(rate)}</span><span>${m$(sub)}</span></div>${rec?`<div class="tot" style="color:var(--ok)"><span>Received</span><span>− ${m$(rec)}</span></div>`:''}${logs?`<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)">${logs}</div>`:''}<div class="tot"><span>Balance</span><span>${o>0?m$(o):o<0?m$(Math.abs(o))+' Advance':'Paid'}</span></div></div>`;
+  }).join('');
+  const upiUri=(s.u&&due>0)?`upi://pay?pa=${encodeURIComponent(s.u)}&pn=${encodeURIComponent(s.f)}&am=${L(due)}&cu=INR`:'';
+  const qrHtml=upiUri?`<div class="qr-box">${QR.makeSvg(upiUri)}</div><div class="mut" style="text-align:center;font-size:11px;margin-bottom:8px">Scan with GPay, PhonePe or Paytm (${esc(s.u)})</div>`:'';
+  const upiBtn=upiUri?`<a class="btn upi" href="${upiUri}">⚡ Pay ${m$(due)} via UPI App</a>`:'';
+  $('#main').innerHTML=`<div class="card" style="text-align:center"><div class="mut">${esc(s.n)} · Updated ${fmtD(s.g)}</div><div class="big">${m$(Math.abs(due))}</div><div class="mut">${due>=0?'Total Balance Due':'Advance Credit'}</div>${qrHtml}${upiBtn}<button class="btn ghost no-print" onclick="window.print()">Print / Save PDF</button></div>`+cards;
+}
+
+function home(){
+  const t=today(),n=D.customers.length;let tl=0,tc=0,ml=0,ma=0;
+  const curYm=ymNow();
+  D.customers.forEach(c=>{
+    const v=q(c.id,t);
+    if(v>0){tl+=v;tc++}
+    ml+=mq(c.id,curYm);
+    let custNet=0;
+    months(c.id).forEach(x=>custNet+=netMonth(c,x));
+    if(custNet>0)ma+=custNet;
+  });
+  const pct=n?Math.round((tc/n)*100):0;
+  const circum=163.36;
+  const dashOffset=circum-(circum*pct)/100;
+
+  const days7=[];
+  let max7=1;
+  for(let i=6;i>=0;i--){
+    const dObj=new Date();dObj.setDate(dObj.getDate()-i);
+    const dIso=iso(dObj);
+    const sumD=L(D.customers.reduce((s,c)=>s+q(c.id,dIso),0));
+    if(sumD>max7)max7=sumD;
+    days7.push({iso:dIso,lbl:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dObj.getDay()],val:sumD,isToday:i===0});
+  }
+  const trendHtml=n?`<div class="card"><div class="mut" style="font-weight:700">${T('trend_7d')}</div><div class="trend-bars">${days7.map(d=>`<div class="t-col ${d.isToday?'active':''}" data-act="jumpday" data-dt="${d.iso}"><div class="t-val">${d.val?d.val+'L':''}</div><div class="t-bar-wrap"><div class="t-bar" style="height:${Math.max(8,Math.round((d.val/max7)*100))}%"></div></div><div class="t-lbl">${d.isToday?'Today':d.lbl}</div></div>`).join('')}</div></div>`:'';
+
+  const py=prevYm();
+  const targetYm=D.customers.some(c=>mq(c.id,py)>0)?py:curYm;
+  const actTarget=D.customers.filter(c=>mq(c.id,targetYm)>0);
+  const sent=actTarget.filter(c=>(D.bills[c.id+'|'+targetYm]||{}).sent).length;
+
+  return `<div class="card hero-card">
+    <div class="hero-top">
+      <div>
+        <div class="hero-badge">${T('today')} · ${fmtD(t)}</div>
+        <div class="hero-big">${L(tl)} <small>${T('litres')}</small></div>
+        <div class="hero-sub">${n?`${T('deliv_to')} ${tc} ${T('of')} ${n} ${T('custs')}`:T('add_first')}</div>
+      </div>
+      ${n?`<div class="ring-wrap">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="26" stroke="rgba(255,255,255,0.2)" stroke-width="5" fill="none"/>
+          <circle cx="32" cy="32" r="26" stroke="#fff" stroke-width="5" fill="none" stroke-dasharray="${circum}" stroke-dashoffset="${dashOffset}" stroke-linecap="round"/>
+        </svg>
+        <span>${pct}%</span>
+      </div>`:''}
+    </div>
+    <button class="hero-btn" data-tab="${n?'entry':'cust'}">${n?T('rec_today')+' →':'＋ '+T('add_cust')}</button>
+  </div>
+  <div class="grid2">
+    <div class="card stat"><span>${T('this_month')} (${monthLabel(curYm).split(' ')[0]})</span><b>${L(ml)} L</b></div>
+    <div class="card stat"><span>${T('to_collect')}</span><b style="color:var(--pri)">${M(ma)}</b></div>
+  </div>
+  ${trendHtml}
+  <div class="card"><h2><span>${monthLabel(targetYm)} ${T('bills_lbl')}</span><span class="chip ${sent===actTarget.length&&actTarget.length?'ok':'gold'}">${sent}/${actTarget.length} ${T('sent_lbl')}</span></h2>${actTarget.length?`<div class="bar"><i style="width:${Math.round(sent/actTarget.length*100)}%"></i></div><button class="btn" data-act="gobills" data-ym="${targetYm}">${T('open_bills')}</button>`:`<div class="mut">${T('no_milk_last')}</div>`}</div>`;
+}
+
+const hit=c=>c.name.toLowerCase().includes(qs.trim().toLowerCase())||String(c.phone||'').includes(qs.trim());
+
+function erows(){
+  return D.customers.filter(hit).map(c=>{
+    const v=D.settings.shiftMode?qShift(c.id,date,shift):q(c.id,date);
+    const fullDay=q(c.id,date);
+    const subInfo=D.settings.shiftMode
+      ?`<div class="mut">AM: ${L(qShift(c.id,date,'M'))}L · PM: ${L(qShift(c.id,date,'E'))}L (Tot ${L(fullDay)}L)</div>`
+      :(c.usual?`<div class="mut">Usual ${L(c.usual)} L · ${M(c.rate)}/L</div>`:`<div class="mut">${M(c.rate)}/L</div>`);
+    const quickVals=[0.5,1,1.5,2];
+    if(c.usual && !quickVals.includes(c.usual))quickVals.unshift(c.usual);
+    const chips=`<div class="qchips">${quickVals.slice(0,4).map(qv=>`<button type="button" class="qchip ${v===qv?'active':''}" data-act="setq" data-id="${c.id}" data-v="${qv}">${qv}L</button>`).join('')}</div>`;
+    return `<div class="row">${avatarHtml(c.name,v>0)}<div class="grow"><b>${esc(c.name)}</b>${subInfo}${chips}</div>
+    <div class="step"><button type="button" data-act="adj" data-id="${c.id}" data-d="-0.5">−</button><input class="qin" type="number" inputmode="decimal" step="0.25" min="0" placeholder="0" value="${v||''}" data-id="${c.id}"><button type="button" data-act="adj" data-id="${c.id}" data-d="0.5">+</button></div></div>`;
+  }).join('')||'<div class="empty">No matching customer</div>';
+}
+
+function entry(){
+  if(!D.customers.length)return empty(T('add_first'));
+  if(D.settings.shiftMode && shift==='all')shift='M';
+  if(!D.settings.shiftMode)shift='all';
+  const tot=D.customers.reduce((s,c)=>s+q(c.id,date),0);
+  const shiftBar=D.settings.shiftMode?`<div class="pills"><button type="button" class="pill ${shift==='M'?'on':''}" data-act="setshift" data-sh="M">☀️ ${T('morning')}</button><button type="button" class="pill ${shift==='E'?'on':''}" data-act="setshift" data-sh="E">🌙 ${T('evening')}</button></div>`:'';
+  return `<div class="card"><div class="datebar"><button type="button" data-act="day" data-d="-1">‹</button><input type="date" id="dt" value="${date}"><button type="button" data-act="day" data-d="1">›</button><button type="button" class="btn ghost sm" data-act="today">Today</button></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 10px">
+    <span class="mut">Morning / Evening 2-Shift Mode</span>
+    <button type="button" class="btn ghost sm" data-act="toggleshift">${D.settings.shiftMode?'ON ✓':'OFF'}</button>
+  </div>
+  ${shiftBar}
+  ${D.customers.length>3?`<input id="sq" type="search" placeholder="${T('search_ph')}" value="${esc(qs)}" style="margin:4px 0 8px">`:''}
+  <div id="rows">${erows()}</div>
+  <div class="tot"><span>${T('tot_day')}</span><span id="day-tot" class="amt" style="color:var(--pri)">${L(tot)} L</span></div><div class="mut">${T('saved_auto')}</div>
+  <div class="acts"><button type="button" class="btn ghost" data-act="usual">${T('usual_btn')}</button><button type="button" class="btn ghost" data-act="yday">${T('yday_btn')}</button></div>
+  <button type="button" class="btn ghost" style="color:var(--bad);margin-top:8px" data-act="clearday">${T('clear_btn')}</button></div>`;
+}
+
+function bills(){
+  if(!D.customers.length)return empty(T('add_first'));
+  const allList=D.customers.map(c=>{
+    const l=mq(c.id,bym),pd=due(c,bym),rec=(D.bills[c.id+'|'+bym]||{}).received||0,g=totalBalanceUpTo(c,bym);
+    return {c,l,pd,rec,g};
+  }).filter(x=>x.l>0||x.pd!==0||x.rec>0);
+
+  const unpaidCnt=allList.filter(x=>x.g>0).length;
+  const paidCnt=allList.filter(x=>x.g<=0).length;
+  const list=allList.filter(x=>bfilter==='unpaid'?x.g>0:bfilter==='paid'?x.g<=0:true);
+
+  const nav=`<div class="datebar"><button type="button" data-act="bm" data-d="-1">‹</button><div class="mlabel">${monthLabel(bym)}</div><button type="button" data-act="bm" data-d="1">›</button></div>
+  <div class="pills"><button type="button" class="pill ${bym===ymNow()?'on':''}" data-act="setbm" data-ym="${ymNow()}">This Month</button><button type="button" class="pill ${bym===prevYm()?'on':''}" data-act="setbm" data-ym="${prevYm()}">Last Month</button></div>
+  <div class="pills"><button type="button" class="pill ${bfilter==='all'?'on':''}" data-act="setbf" data-bf="all">All (${allList.length})</button><button type="button" class="pill ${bfilter==='unpaid'?'on':''}" data-act="setbf" data-bf="unpaid">Unpaid (${unpaidCnt})</button><button type="button" class="pill ${bfilter==='paid'?'on':''}" data-act="setbf" data-bf="paid">Paid (${paidCnt})</button></div>`;
+
+  if(!list.length)return `<div class="card">${nav}<div class="empty">${T('no_milk_for')} ${monthLabel(bym)}.</div></div>`;
+  let tot=0;
+  allList.forEach(x=>{if(x.g>0)tot=L(tot+x.g)});
+
+  const rows=list.map(({c,l,pd,g})=>{
+    const rate=rateFor(c,bym),sub=monthSub(c,bym),b=D.bills[c.id+'|'+bym]||{},rec=L(b.received||0);
+    const st=g<0?`<span class="chip ok">${T('advance')} ${M(Math.abs(g))}</span>`:g===0?`<span class="chip ok">${T('paid')}</span>`:rec>0?`<span class="chip gold">${T('part_paid')}</span>`:b.sent?`<span class="chip gold">${T('sent')}</span>`:`<span class="chip">${T('to_send')}</span>`;
+    let more='';
+    if(open===c.id){
+      const f=D.settings.farm,upi=D.settings.upi.trim();
+      const upiUri=(upi&&g>0)?`upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(f)}&am=${L(g)}&cu=INR`:'';
+      const upiLine=upiUri?`\nPay via UPI (${upi}):\n${upiUri}\n`:'';
+      const msg=D.settings.lang==='hi'
+        ?`${f} — दूध का बिल\n${monthLabel(bym)}\n\nनमस्ते ${c.name},\nइस महीने का दूध: ${L(l)} L × ${M(rate)}/L = ${M(sub)}\n`+(pd>0?`पिछला बकाया: ${M(pd)}\n`:pd<0?`पिछला जमा (Advance): −${M(Math.abs(pd))}\n`:'')+(rec?`प्राप्त राशि: −${M(rec)}\n`:'')+`कुल देय राशि: ${M(Math.max(0,g))}\n${upiLine}\nधन्यवाद! 🙏\n— ${f}`
+        :`${f} — Milk Bill\n${monthLabel(bym)}\n\nHello ${c.name},\nMilk delivered: ${L(l)} L × ${M(rate)}/L = ${M(sub)}\n`+(pd>0?`Previous balance: ${M(pd)}\n`:pd<0?`Previous advance: −${M(Math.abs(pd))}\n`:'')+(rec?`Received: −${M(rec)}\n`:'')+`Total due: ${M(Math.max(0,g))}\n${upiLine}\nThank you! 🙏\n— ${f}`;
+      const e=encodeURIComponent(msg),dg=digits(c.phone),ok=/^https?:/.test(location.protocol);
+      const se=ok?encodeURIComponent(`${f}\nHello ${c.name}, here’s your day-wise milk passbook & balance:\n${slink(c)}`):'';
+      const stm=ok?`<div class="mut" style="margin-top:12px">Customer Passbook Link (day-wise breakdown)</div><div class="acts"><a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/${dg}?text=${se}">Passbook · WA</a><a class="btn ghost" href="${smsHref(dg,se)}">Passbook · SMS</a></div>`:'';
+      const dmap=dayBreakdown(c.id,bym);
+      const [yy,mm]=bym.split('-').map(Number),daysInMonth=new Date(yy,mm,0).getDate();
+      let calHtml=`<div class="cal-hint"><span>📅 Tap any date below to edit litres</span><b>${L(l)} L total</b></div><div class="calgrid">`;
+      for(let day=1;day<=daysInMonth;day++){
+        const dk=pad(day),dv=dmap[dk]||0;
+        calHtml+=`<div class="calcell ${dv?'':'zero'}" data-act="editcal" data-id="${c.id}" data-day="${dk}">${day}<b>${dv?L(dv)+'L':'-'}</b></div>`;
+      }
+      calHtml+='</div>';
+
+      const payments=b.payments||[];
+      const payLogHtml=payments.length?`<div class="pay-log"><div class="mut" style="font-size:11px;font-weight:700;margin-bottom:4px">Payment History (${monthLabel(bym).split(' ')[0]})</div>${payments.map(p=>`<div class="pay-log-item"><span>${fmtD(p.date)}${p.note?' · '+esc(p.note):''}</span><span><b>${M(p.amt)}</b> <button type="button" class="pay-del" title="Delete entry" data-act="delpay" data-id="${c.id}" data-pid="${p.id}">✕</button></span></div>`).join('')}</div>`:'';
+
+      more=`<div class="det">
+      ${calHtml}
+      <div class="l"><span>${L(l)} L × ${M(rate)}/L</span><span>${M(sub)}</span></div>
+      ${pd>0?`<div class="l"><span>${T('prev_unpaid')}</span><span>+ ${M(pd)}</span></div>`:pd<0?`<div class="l" style="color:var(--ok)"><span>Previous Advance</span><span>− ${M(Math.abs(pd))}</span></div>`:''}
+      ${rec?`<div class="l" style="color:var(--ok)"><span>${T('received')} (${monthLabel(bym).split(' ')[0]})</span><span>− ${M(rec)}</span></div>`:''}
+      ${payLogHtml}
+      <div class="l t"><span>${g>=0?T('tot_due'):T('advance')}</span><span>${M(Math.abs(g))}</span></div>
+      <div class="acts3"><a class="btn wa" data-act="sent" data-id="${c.id}" target="_blank" rel="noopener" href="https://wa.me/${dg}?text=${e}">WhatsApp</a><a class="btn sms" data-act="sent" data-id="${c.id}" href="${smsHref(dg,e)}">SMS</a><a class="btn call" href="tel:${esc(c.phone)}">📞 Call</a></div>
+      <div class="acts"><button type="button" class="btn ghost" data-act="rec" data-id="${c.id}">💵 ${T('rec_pay')}</button><button type="button" class="btn ghost" data-act="paid" data-id="${c.id}">${g<=0?T('undo_pay'):T('mark_paid')}</button></div>
+      <div class="acts"><button type="button" class="btn upi" data-act="upiqr" data-id="${c.id}">📱 Show UPI QR</button><button type="button" class="btn ghost no-print" onclick="window.print()">🖨️ Print PDF</button></div>
+      ${stm}</div>`;
+    }
+    return `<div class="row tap" data-act="open" data-id="${c.id}">${avatarHtml(c.name,g<=0)}<div class="grow"><b>${esc(c.name)}</b><div class="mut">${L(l)} L × ${M(rate)} = ${M(sub)}${pd>0?` + ${M(pd)} prev`:''}</div></div><div class="amt">${M(Math.max(0,g))}</div>${st}</div>${more}`;
+  }).join('');
+  return `<div class="card">${nav}<div class="mut" style="text-align:center;font-weight:700">${allList.length} ${T('custs')} · ${M(tot)} total unpaid</div></div><div class="card">${rows}</div>`;
+}
+
+function cust(){
+  const e=D.customers.find(c=>c.id===edit)||{};
+  const list=D.customers.length?D.customers.map(c=>`<div class="row">${avatarHtml(c.name)}<div class="grow"><b>${esc(c.name)}</b><div class="mut">${esc(c.phone)} · ${M(c.rate)}/L${c.usual?` · ${L(c.usual)} L/day`:''}</div></div><a class="del" style="color:var(--ok)" href="tel:${esc(c.phone)}" title="Call Customer">📞</a><button type="button" class="del" style="color:var(--pri)" data-act="edit" data-id="${c.id}">Edit</button><button type="button" class="del" data-act="del" data-id="${c.id}">✕</button></div>`).join(''):'<div class="empty">No customers yet.</div>';
+  return `<div class="card"><h2><span>${edit?T('edit_cust'):T('add_cust')}</span></h2><label>${T('name')}</label><input id="cn" value="${esc(e.name||'')}" placeholder="e.g. Sharma Family">
+  <label>${T('phone')}</label><input id="cp" type="tel" value="${esc(e.phone||'')}" placeholder="10-digit mobile number">
+  <div class="g2"><div><label>${T('rate')}</label><input id="cr" type="number" inputmode="decimal" value="${e.rate||''}" placeholder="60"></div><div><label>${T('usual')}</label><input id="cu" type="number" inputmode="decimal" step="0.25" value="${e.usual||''}" placeholder="1"></div></div>
+  <button type="button" class="btn" data-act="savec">${edit?T('save_chg'):'＋ '+T('add_cust')}</button>${edit?`<button type="button" class="btn ghost" data-act="cancel">${T('cancel')}</button>`:''}</div>
+  <div class="card"><h2><span>${T('nav_cust')} (${D.customers.length})</span></h2>${list}</div>
+  <div class="card"><h2><span>${T('backup')}</span></h2>
+  <div class="mut">Download a backup file to your phone or export monthly reports to Excel/CSV.</div>
+  <div class="acts"><button type="button" class="btn" data-act="dljson">⬇ ${T('dl_json')}</button><button type="button" class="btn ghost" data-act="uljson">⬆ ${T('ul_json')}</button></div>
+  <button type="button" class="btn ghost" data-act="csv">📊 ${T('export_csv')} (${monthLabel(bym)})</button>
+  <label style="margin-top:14px">Text Backup</label><textarea id="bk" readonly></textarea><button type="button" class="btn ghost" data-act="copy">Copy backup text</button>
+  <label>Paste to Restore</label><textarea id="rs" placeholder="Paste backup JSON here"></textarea><button type="button" class="btn ghost" data-act="restore">Restore from text</button></div>`;
+}
+
+function updateNavLabels(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent=T(el.dataset.i18n);
+  });
+}
+
+function render(){
+  updateNavLabels();
+  $('#farm-display').textContent=D.settings.farm||'Maa Ambe Dairy Farm';
+  $('#main').innerHTML=(lsOK?'':'<div class="card mut">Auto-save is unavailable in this browser — use Backup in Customers.</div>')+({home,entry,bills,cust}[tab])();
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  const bk=$('#bk');if(bk)bk.value=JSON.stringify(D);
+}
+
+function applyRestore(rawStr){
+  try{
+    const x=JSON.parse(rawStr.trim());if(!Array.isArray(x.customers))throw 0;
+    let en=x.entries||{};if(Array.isArray(en)){const o={};en.forEach(r=>o[r.customerId+'|'+r.date]=r.qty);en=o}
+    const s=x.settings||{};
+    D={customers:x.customers,entries:en,bills:x.bills||{},settings:{farm:s.farm||s.farmName||D.settings.farm,cur:s.cur||s.currency||'₹',upi:s.upi||'',lang:s.lang||'en',shiftMode:!!s.shiftMode,theme:s.theme||'light',accent:s.accent||'blue'}};
+    save();applyTheme();$('#farm').value=D.settings.farm;$('#upi').value=D.settings.upi;toast('Backup restored!');burstConfetti();render();
+  }catch(x){toast('Not a valid backup file')}
+}
+
+/* Modal Builders */
+function showPaymentModal(c){
+  const totDue=Math.max(0,totalBalanceUpTo(c,bym));
+  const chips=[totDue,500,1000,2000].filter((v,i,a)=>v>0&&a.indexOf(v)===i);
+  openModal(`
+    <h2><span>💵 Record Payment · ${esc(c.name)}</span><button type="button" class="btn ghost sm" data-act="closem">✕</button></h2>
+    <div class="mut">Current total due up to ${monthLabel(bym)}: <b>${M(totDue)}</b></div>
+    <label>Amount Received (₹)</label>
+    <input id="m-pay-amt" type="number" inputmode="decimal" value="${totDue||''}" placeholder="Enter amount">
+    <div class="qchips" style="margin-top:8px">
+      ${chips.map(v=>`<button type="button" class="qchip" onclick="document.getElementById('m-pay-amt').value='${v}'">${v===totDue?'Full Due ('+M(v)+')':'₹'+v}</button>`).join('')}
+    </div>
+    <div class="g2">
+      <div><label>Date</label><input id="m-pay-dt" type="date" value="${today()}"></div>
+      <div><label>Mode / Note</label><input id="m-pay-note" placeholder="Cash / UPI / GPay"></div>
+    </div>
+    <div class="acts" style="margin-top:14px">
+      <button type="button" class="btn ghost" data-act="closem">Cancel</button>
+      <button type="button" class="btn" data-act="savepay" data-id="${c.id}">Save Payment</button>
+    </div>
+  `);
+}
+
+function showEditCalModal(c,dayStr){
+  const targetDate=`${bym}-${dayStr}`;
+  const curVal=q(c.id,targetDate);
+  openModal(`
+    <h2><span>📅 Edit Milk · ${fmtD(targetDate)}</span><button type="button" class="btn ghost sm" data-act="closem">✕</button></h2>
+    <div class="mut">${esc(c.name)} · Rate ${M(rateFor(c,bym))}/L</div>
+    <label>Litres Delivered on ${fmtD(targetDate)}</label>
+    <input id="m-cal-qty" type="number" inputmode="decimal" step="0.25" min="0" value="${curVal||''}" placeholder="0">
+    <div class="qchips" style="margin-top:8px">
+      ${[0,0.5,1,1.5,2,c.usual].filter((v,i,a)=>v!==undefined&&a.indexOf(v)===i).map(v=>`<button type="button" class="qchip" onclick="document.getElementById('m-cal-qty').value='${v}'">${v===0?'0L (None)':v+'L'}</button>`).join('')}
+    </div>
+    <div class="acts" style="margin-top:14px">
+      <button type="button" class="btn ghost" data-act="closem">Cancel</button>
+      <button type="button" class="btn" data-act="savecal" data-id="${c.id}" data-dt="${targetDate}">Update Litres</button>
+    </div>
+  `);
+}
+
+function showUpiQrModal(c){
+  const upi=D.settings.upi.trim();
+  if(!upi){
+    $('#drawer').classList.add('open');
+    $('#upi').focus();
+    toast('Enter your UPI ID in Settings first');
+    return;
+  }
+  const g=Math.max(0,totalBalanceUpTo(c,bym));
+  const uri=`upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(D.settings.farm)}&am=${L(g)}&cu=INR`;
+  const svg=QR.makeSvg(uri);
+  openModal(`
+    <h2><span>📱 Scan to Pay · ${esc(c.name)}</span><button type="button" class="btn ghost sm" data-act="closem">✕</button></h2>
+    <div style="text-align:center">
+      <div class="mut">${esc(D.settings.farm)} (${esc(upi)})</div>
+      <div class="big" style="color:var(--pri);margin:6px 0">${M(g)}</div>
+      <div class="qr-box">${svg}</div>
+      <div class="mut">Customer can scan this QR with GPay, PhonePe, Paytm or any UPI app</div>
+      <button type="button" class="btn" data-act="closem" style="margin-top:14px">Done</button>
+    </div>
+  `);
+}
+
+document.addEventListener('click',e=>{
+  if(e.target.id==='modal'){closeModal();return}
+  if(e.target.id==='langbtn'){
+    haptic();
+    D.settings.lang=D.settings.lang==='hi'?'en':'hi';
+    save();render();return;
+  }
+  if(e.target.id==='themebtn'){
+    haptic();
+    D.settings.theme=D.settings.theme==='dark'?'light':'dark';
+    save();applyTheme();return;
+  }
+  if(e.target.closest('#gearbtn')||e.target.closest('#open-settings')||e.target.id==='closedrawer'){
+    haptic();
+    $('#drawer').classList.toggle('open');
+    return;
+  }
+  if(e.target.classList.contains('swatch')){
+    haptic();
+    D.settings.accent=e.target.dataset.acc;
+    save();applyTheme();return;
+  }
+  const t=e.target.closest('[data-tab],[data-act]');if(!t)return;
+  if(t.dataset.tab){haptic();tab=t.dataset.tab;edit=null;render();scrollTo(0,0);return}
+  const a=t.dataset.act,id=t.dataset.id,d=+t.dataset.d;
+  if(a==='closem'){closeModal();return}
+  if(a==='adj'){
+    haptic();
+    const cur=D.settings.shiftMode?qShift(id,date,shift):q(id,date);
+    setQ(id,Math.max(0,cur+d),shift);render();
+  }
+  else if(a==='setq'){
+    haptic();
+    setQ(id,parseFloat(t.dataset.v)||0,shift);render();
+  }
+  else if(a==='jumpday'){
+    haptic();
+    date=t.dataset.dt;tab='entry';render();scrollTo(0,0);
+  }
+  else if(a==='day'){haptic();const x=new Date(date+'T00:00:00');x.setDate(x.getDate()+d);date=iso(x);render()}
+  else if(a==='today'){haptic();date=today();render()}
+  else if(a==='toggleshift'){haptic();D.settings.shiftMode=!D.settings.shiftMode;shift=D.settings.shiftMode?'M':'all';save();render()}
+  else if(a==='setshift'){haptic();shift=t.dataset.sh;render()}
+  else if(a==='usual'){
+    haptic(12);
+    D.customers.forEach(c=>{
+      const cur=D.settings.shiftMode?qShift(c.id,date,shift):q(c.id,date);
+      if(c.usual&&!cur)setQ(c.id,c.usual,shift);
+    });
+    render();toast('Filled usual quantities');
+  }
+  else if(a==='clearday'){
+    openModal(`
+      <h2><span>Clear entries for ${fmtD(date)}?</span></h2>
+      <div class="mut">This will reset all milk quantities recorded for ${fmtD(date)} to 0 L.</div>
+      <div class="acts" style="margin-top:16px">
+        <button type="button" class="btn ghost" data-act="closem">Cancel</button>
+        <button type="button" class="btn danger" data-act="confirmclearday">Yes, Clear Day</button>
+      </div>
+    `);
+  }
+  else if(a==='confirmclearday'){
+    D.customers.forEach(c=>{
+      delete D.entries[c.id+'|'+date];
+      delete D.entries[c.id+'|'+date+'|M'];
+      delete D.entries[c.id+'|'+date+'|E'];
+    });
+    save();closeModal();render();toast('Cleared day entries');
+  }
+  else if(a==='gobills'){haptic();tab='bills';if(t.dataset.ym)bym=t.dataset.ym;render();scrollTo(0,0)}
+  else if(a==='bm'){haptic();bym=shiftYm(bym,d);open=null;render()}
+  else if(a==='setbm'){haptic();bym=t.dataset.ym;open=null;render()}
+  else if(a==='setbf'){haptic();bfilter=t.dataset.bf;render()}
+  else if(a==='open'){haptic();open=open===id?null:id;render()}
+  else if(a==='sent'){const k=id+'|'+bym;D.bills[k]=Object.assign(D.bills[k]||{rate:rateFor(D.customers.find(x=>x.id===id),bym)},{sent:true});save();setTimeout(render,400)}
+  else if(a==='rec'){
+    const c=D.customers.find(x=>x.id===id);
+    if(c)showPaymentModal(c);
+  }
+  else if(a==='savepay'){
+    const c=D.customers.find(x=>x.id===id);
+    const v=parseFloat($('#m-pay-amt').value);
+    const dt=$('#m-pay-dt').value||today();
+    const note=$('#m-pay-note').value||'';
+    if(c&&v>0){
+      pay(c,v,dt,note);
+      save();closeModal();render();toast('Payment recorded!');burstConfetti();
+    }else toast('Please enter a valid amount');
+  }
+  else if(a==='delpay'){
+    const k=id+'|'+bym,b=D.bills[k];
+    if(b&&b.payments){
+      const item=b.payments.find(x=>x.id===t.dataset.pid);
+      if(item){
+        b.payments=b.payments.filter(x=>x.id!==t.dataset.pid);
+        b.received=Math.max(0,L((b.received||0)-item.amt));
+        const c=D.customers.find(x=>x.id===id);
+        b.paid=c?(b.received>=monthSub(c,bym)-0.005):false;
+        save();render();toast('Payment entry removed');
+      }
+    }
+  }
+  else if(a==='editcal'){
+    const c=D.customers.find(x=>x.id===id);
+    if(c)showEditCalModal(c,t.dataset.day);
+  }
+  else if(a==='savecal'){
+    const qty=parseFloat($('#m-cal-qty').value)||0;
+    setQOnDate(id,t.dataset.dt,qty,'all');
+    closeModal();render();toast('Updated '+fmtD(t.dataset.dt));
+  }
+  else if(a==='upiqr'){
+    const c=D.customers.find(x=>x.id===id);
+    if(c)showUpiQrModal(c);
+  }
+  else if(a==='paid'){
+    const c=D.customers.find(x=>x.id===id),totDue=totalBalanceUpTo(c,bym);
+    if(totDue>0){
+      pay(c,totDue,today(),'Full settlement');
+      toast('Marked as paid! 🎉');
+      burstConfetti();
+    }else{
+      const k=id+'|'+bym,old=D.bills[k]||{};
+      D.bills[k]={sent:old.sent,rate:old.rate||c.rate,received:0,paid:false,payments:[]};
+      toast('Undid payment for '+monthLabel(bym));
+    }
+    save();render();
+  }
+  else if(a==='yday'){
+    haptic(12);
+    const x=new Date(date+'T00:00:00');x.setDate(x.getDate()-1);const p=iso(x);
+    D.customers.forEach(c=>{
+      const v=D.settings.shiftMode?qShift(c.id,p,shift):q(c.id,p);
+      const cur=D.settings.shiftMode?qShift(c.id,date,shift):q(c.id,date);
+      if(v&&!cur)setQ(c.id,v,shift);
+    });
+    render();toast('Copied from yesterday');
+  }
+  else if(a==='edit'){edit=id;render();scrollTo(0,0)}
+  else if(a==='cancel'){edit=null;render()}
+  else if(a==='del'){
+    const c=D.customers.find(x=>x.id===id);
+    if(!c)return;
+    openModal(`
+      <h2><span>Remove ${esc(c.name)}?</span></h2>
+      <div class="mut">This will permanently remove <b>${esc(c.name)}</b> and all their milk delivery & billing history.</div>
+      <div class="acts" style="margin-top:16px">
+        <button type="button" class="btn ghost" data-act="closem">Cancel</button>
+        <button type="button" class="btn danger" data-act="confirmdel" data-id="${c.id}">Remove Customer</button>
+      </div>
+    `);
+  }
+  else if(a==='confirmdel'){
+    D.customers=D.customers.filter(c=>c.id!==id);
+    for(const k in D.entries)if(k.startsWith(id+'|'))delete D.entries[k];
+    for(const k in D.bills)if(k.startsWith(id+'|'))delete D.bills[k];
+    if(open===id)open=null;
+    if(edit===id)edit=null;
+    save();closeModal();render();toast('Customer removed');
+  }
+  else if(a==='savec'){
+    const name=$('#cn').value.trim(),phone=$('#cp').value.trim(),rate=parseFloat($('#cr').value),usual=parseFloat($('#cu').value)||0;
+    if(!name||!phone||!(rate>0)){toast('Please fill name, phone and rate');return}
+    if(edit){
+      const c=D.customers.find(x=>x.id===edit);
+      if(c){
+        months(c.id).forEach(m=>{
+          const bk=c.id+'|'+m;
+          D.bills[bk]=D.bills[bk]||{};
+          if(!D.bills[bk].rate)D.bills[bk].rate=c.rate;
+        });
+        Object.assign(c,{name,phone,rate,usual});
+        const curBk=c.id+'|'+ymNow();
+        if(D.bills[curBk])D.bills[curBk].rate=rate;
+      }
+    }else{
+      D.customers.push({id:uid(),name,phone,rate,usual});
+    }
+    save();toast(edit?'Changes saved':'Customer added!');edit=null;render();
+  }
+  else if(a==='copy'){
+    const b=$('#bk');b.select();
+    try{navigator.clipboard.writeText(b.value)}catch(x){document.execCommand('copy')}
+    toast('Backup copied');
+  }
+  else if(a==='restore'){applyRestore($('#rs').value)}
+  else if(a==='dljson'){
+    const blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),aEl=document.createElement('a');
+    aEl.href=url;aEl.download=`milk-ledger-backup-${today()}.json`;aEl.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('Backup file downloaded');
+  }
+  else if(a==='uljson'){$('#file-in').click()}
+  else if(a==='csv'){
+    const rows=[['Customer Name','Phone','Month','Litres','Rate (INR)','Month Subtotal','Previous Balance','Received','Net Due']];
+    D.customers.forEach(c=>{
+      const l=mq(c.id,bym),r=rateFor(c,bym),sub=monthSub(c,bym),pd=due(c,bym),rec=(D.bills[c.id+'|'+bym]||{}).received||0,g=totalBalanceUpTo(c,bym);
+      rows.push([`"${c.name.replace(/"/g,'""')}"`,c.phone,bym,L(l),r,sub,pd,rec,g]);
+    });
+    const csvContent=rows.map(r=>r.join(',')).join('\n');
+    const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob),aEl=document.createElement('a');
+    aEl.href=url;aEl.download=`milk-report-${bym}.csv`;aEl.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('CSV exported');
+  }
+});
+
+document.addEventListener('input',e=>{
+  if(e.target.classList.contains('qin')){
+    setQ(e.target.dataset.id,parseFloat(e.target.value)||0,shift);
+    const dtot=$('#day-tot');
+    if(dtot){
+      const tot=D.customers.reduce((s,c)=>s+q(c.id,date),0);
+      dtot.textContent=L(tot)+' L';
+    }
+  }else if(e.target.id==='sq'){
+    qs=e.target.value;$('#rows').innerHTML=erows();
+  }
+});
+
+document.addEventListener('change',e=>{
+  if(e.target.id==='dt'&&e.target.value){date=e.target.value;render()}
+  else if(e.target.id==='farm'){
+    D.settings.farm=e.target.value.trim()||'Maa Ambe Dairy Farm';
+    e.target.value=D.settings.farm;
+    $('#farm-display').textContent=D.settings.farm;
+    save();
+  }
+  else if(e.target.id==='upi'){D.settings.upi=e.target.value.trim();save();toast('UPI ID saved')}
+  else if(e.target.id==='file-in'&&e.target.files[0]){
+    const reader=new FileReader();
+    reader.onload=ev=>applyRestore(ev.target.result);
+    reader.readAsText(e.target.files[0]);
+    e.target.value='';
+  }
+});
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+const sh=location.hash.match(/^#s=(.+)$/);
+if(sh){
+  statement(sh[1]);
+}else{
+  load();
+  $('#farm').value=D.settings.farm;
+  $('#upi').value=D.settings.upi||'';
+  render();
+}
+})();
+</script>
+</body>
+</html>
